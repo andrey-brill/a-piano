@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>A.Piano</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<script src="tone.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+
+
+
+		var piano = new Tone.Sampler({
+			"A0" : "A0.[mp3|ogg]",
+			"C1" : "C1.[mp3|ogg]",
+			"D#1" : "Ds1.[mp3|ogg]",
+			"F#1" : "Fs1.[mp3|ogg]",
+			"A1" : "A1.[mp3|ogg]",
+			"C2" : "C2.[mp3|ogg]",
+			"D#2" : "Ds2.[mp3|ogg]",
+			"F#2" : "Fs2.[mp3|ogg]",
+			"A2" : "A2.[mp3|ogg]",
+			"C3" : "C3.[mp3|ogg]",
+			"D#3" : "Ds3.[mp3|ogg]",
+			"F#3" : "Fs3.[mp3|ogg]",
+			"A3" : "A3.[mp3|ogg]",
+			"C4" : "C4.[mp3|ogg]",
+			"D#4" : "Ds4.[mp3|ogg]",
+			"F#4" : "Fs4.[mp3|ogg]",
+			"A4" : "A4.[mp3|ogg]",
+			"C5" : "C5.[mp3|ogg]",
+			"D#5" : "Ds5.[mp3|ogg]",
+			"F#5" : "Fs5.[mp3|ogg]",
+			"A5" : "A5.[mp3|ogg]",
+			"C6" : "C6.[mp3|ogg]",
+			"D#6" : "Ds6.[mp3|ogg]",
+			"F#6" : "Fs6.[mp3|ogg]",
+			"A6" : "A6.[mp3|ogg]",
+			"C7" : "C7.[mp3|ogg]",
+			"D#7" : "Ds7.[mp3|ogg]",
+			"F#7" : "Fs7.[mp3|ogg]",
+			"A7" : "A7.[mp3|ogg]",
+			"C8" : "C8.[mp3|ogg]"
+		}, {
+			"release" : 0.15,
+			"curve": 'linear',
+			"baseUrl" : "./audio/"
+		}).toDestination();
+
+		const keysMapping = {
+
+			q: 'F2',
+			'2': 'F#2',
+			w: 'G2',
+			'3': 'G#2',
+			e: 'A2',
+			'4': 'A#2',
+			r: 'B2',
+
+			t: 'C3',
+			'6': 'C#3',
+			y: 'D3',
+			'7': 'D#3',
+			u: 'E3',
+
+			i: 'F3',
+			'9': 'F#3',
+			o: 'G3',
+			'0': 'G#3',
+			p: 'A3',
+			'-': 'A#3',
+			'[': 'B3',
+
+			']': 'C4'
+		}
+		const pressedKeys = {};
+
+		window.addEventListener('keydown', function ({ key }) {
+
+			const mapping = keysMapping[key];
+
+			if (mapping && !pressedKeys[key]) {
+				resume();
+
+				console.log('onkeydown', key);
+				pressedKeys[key] = true;
+
+				piano.triggerAttack(mapping);
+			}
+		});
+
+		window.addEventListener('keyup', function ({ key }) {
+
+			if (pressedKeys[key]) {
+				resume();
+
+				pressedKeys[key] = false;
+				console.log('keyup', key);
+
+				piano.triggerRelease(keysMapping[key]);
+			}
+		});
+
+		const silentAudio = 'data:audio/mp3;base64,//MkxAAHiAICWABElBeKPL/RANb2w+yiT1g/gTok//lP/W/l3h8QO/OCdCqCW2Cw//MkxAQHkAIWUAhEmAQXWUOFW2dxPu//9mr60ElY5sseQ+xxesmHKtZr7bsqqX2L//MkxAgFwAYiQAhEAC2hq22d3///9FTV6tA36JdgBJoOGgc+7qvqej5Zu7/7uI9l//MkxBQHAAYi8AhEAO193vt9KGOq+6qcT7hhfN5FTInmwk8RkqKImTM55pRQHQSq//MkxBsGkgoIAABHhTACIJLf99nVI///yuW1uBqWfEu7CgNPWGpUadBmZ////4sL//MkxCMHMAH9iABEmAsKioqKigsLCwtVTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVV//MkxCkECAUYCAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV'
+
+		async function resume(){
+			if (Tone.context.state === 'suspended'){
+				const contextPromise = Tone.context.resume()
+
+				//also play a silent audio file which unmutes iOS
+				const audioElement = document.createElement('audio')
+				audioElement.controls = false
+				audioElement.preload = 'auto'
+				audioElement.loop = false
+				audioElement.src = silentAudio
+				audioElement.title = 'Tone.js Examples'
+				let elementPromise = Promise.resolve()
+				try {
+					elementPromise = await audioElement.play()
+				} catch (e){
+					elementPromise = Promise.resolve()
+					console.log('did not start audio', e);
+				}
+				await Promise.all([elementPromise, contextPromise])
+			}
+		}
+
+	</script>
+
+</body>
+</html>
