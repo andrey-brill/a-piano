@@ -1,0 +1,13 @@
+
+.container {
+    width: 100%;
+
+    > div {
+        margin-left: auto;
+        margin-right: auto;
+        width: var(--g100cw);
+        padding-left: var(--gPadding);
+        padding-right: var(--gPadding);
+    }
+}
+

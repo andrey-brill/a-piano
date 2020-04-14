@@ -1,0 +1,33 @@
+{
+  "name": "a-piano",
+  "version": "1.0.0",
+  "description": "Copyright © 2020 A.Brill All rights reserved.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "npm run open",
+    "open": "webpack-dev-server --env.mode development --config ./site/@src/webpack.config.js --open",
+    "prepare-modules": "webpack --config ./site/modules/webpack.config.js --env.mode development",
+    "build-modules": "webpack --config ./site/modules/webpack.config.js --env.mode production",
+    "build": "npm run build-modules && webpack --config ./site/@src/webpack.config.js --env.mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrey-brill/a-piano"
+  },
+  "author": "Andrey Brill <andrey@a-brill.com> (https://github.com/andrey-brill)",
+  "homepage": "https://github.com/andrey-brill/a-piano",
+  "keywords": [
+    "a",
+    "piano",
+    "js"
+  ],
+  "devDependencies": {},
+  "dependencies": {
+    "a-bundle": "^1.0.3",
+    "a-responsive-containers": "^1.0.2",
+    "a-responsive-react": "^1.0.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "tone": "^13.8.25"
+  }
+}

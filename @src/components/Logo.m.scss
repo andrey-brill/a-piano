@@ -1,0 +1,19 @@
+
+.container {
+    min-height: 30vh;
+    display: flex;
+    align-items: flex-end;
+}
+
+.logo {
+
+    .text {
+        fill: var(--white);
+    }
+
+    .shadow {
+        fill: var(--white-shadow-color);
+        transform: translate(0px, 2px);
+    }
+
+}
