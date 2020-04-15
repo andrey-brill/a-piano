@@ -1,5 +1,5 @@
 
-import { IsMobile, PixelWidth, PixelHeight, FromKey, DefFromKey, ToKey, DefToKey, MinNumberOfContentKeys, KeyOuterWidth, NumberOfWhiteNotes, PianoHeight } from './Constants.js';
+import { IsMobile, PixelWidth, PixelHeight, FromKey, DefFromKey, ToKey, DefToKey, MinNumberOfContentKeys, KeyOuterWidth, NumberOfWhiteNotes, PianoHeight, CornerRadius, Padding, KeyOuterHeight, WhiteKeyHeight, KeyWidth, OctaveOuterHeight } from './Constants.js';
 import { Changeable } from './Changeable.js';
 
 
@@ -37,18 +37,35 @@ export class Settings extends Changeable {
         return value * this.get(PixelHeight);
     }
 
+    pwKeyOuterWidth () {
+        return this.pw(KeyOuterWidth)
+    }
+
     pwContentWidth () {
         return this.pw(this.getContentWidth());
     }
 
     pwPianoOffset () {
-        return this.ph(- this.get(FromKey) * KeyOuterWidth);
+        return - this.get(FromKey) * this.pwKeyOuterWidth();
+    }
+
+    phOctaveOuterHeight () {
+        return this.ph(OctaveOuterHeight);
     }
 
     pwPianoSize () {
         return {
             width: this.pw(NumberOfWhiteNotes * KeyOuterWidth),
             height: this.pw(PianoHeight)
+        }
+    }
+
+    pxWhiteKeyBounds () {
+        return {
+            radius : this.pw(CornerRadius),   // TODO check, maybe use min(pw, ph)
+            padding: this.pw(Padding),        // TODO check, maybe use min(pw, ph)
+            width: this.pw(KeyWidth),
+            height: this.ph(WhiteKeyHeight)
         }
     }
 }

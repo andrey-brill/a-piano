@@ -21,11 +21,22 @@ export const Piano = () => {
 
     const { width, height } = size;
 
+    const whiteKeyBounds = settings.pxWhiteKeyBounds();
+    const keyWidth = settings.pwKeyOuterWidth();
+    const offsetY = settings.phOctaveOuterHeight();
+
     return (
         <Content>
             <PianoOffset>
                 <svg viewBox={`0 0 ${width} ${height}`} style={strictSize(width, height)} xmlns="http://www.w3.org/2000/svg">
-                    { notes.map( (note) => <WhiteKey key={note.name} index={note.index} type={note.type} /> )}
+                    { notes.map(
+                        (note) => (
+                            note.white ?
+                            (<WhiteKey key={note.name} offset={{ x: keyWidth * note.index, y: offsetY }} type={note.type} bounds={whiteKeyBounds} />)
+                            :
+                            (null)
+                        )
+                    ) }
                 </svg>
             </PianoOffset>
         </Content>

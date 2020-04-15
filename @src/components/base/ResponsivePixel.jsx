@@ -12,7 +12,7 @@ export const ResponsivePixel = React.memo(() => {
         width: '100w',
         height: '100h',
         diagonal: '100d',
-        pRx: 0.35
+        pRx: 0.25
     };
 
     let resolvedRo = {};

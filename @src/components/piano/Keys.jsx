@@ -1,56 +1,106 @@
 
 import { React } from '../../chunk-e.js';
 import { KeyWidth, CornerRadius, WhiteKeyHeight, WhiteKeyCutoutHeight, Padding, KeyOuterWidth } from '../../base/Constants.js';
+import { PathBuilder } from './PathBuilder.js';
 
 
+const DefaultOffset = Object.freeze({ x: 0, y: 0 });
 
-export const WhiteKey = ({ index = 0, type }) => {
 
-    const offsetX = index * KeyOuterWidth;
-    const shadowX = offsetX + Padding;
-    const shadowY = Padding + WhiteKeyHeight - CornerRadius;
+export const WhiteKey = ({ name, type, offset, bounds }) => {
 
     // make <KeyState pressed={}><KeyNote/>
     // try use one .m.scss file for sharing css classes (.white-key .white-key-shadow)
     return (
-        <g className='key-white'>
-            <rect fill="#888" x={shadowX} y={shadowY} width={KeyWidth} height={2 * CornerRadius} rx={CornerRadius}/>
-            <path fill="#fff" d={createWhiteKeyPathData(offsetX, type, WhiteKeyHeight)}/>
+        <g className='white-key' name={name}>
+            <ShadowRect offset={offset} bounds={bounds}/>
+            <path fill="#fff" d={createWhiteKeyPathData(type, offset, bounds)}/>
         </g>
     );
 };
 
+export const BlackKey = ({ name, offset, bounds }) => {
+
+    // make <KeyState pressed={}><KeyNote/>
+    // try use one .m.scss file for sharing css classes (.white-key .white-key-shadow)
+    return (
+        <g className='black-key' name={name}>
+            <rect
+                fill="#000"
+                x={offset.x + bounds.padding}
+                y={offset.y + bounds.padding}
+                width={bounds.width}
+                height={bounds.height}
+                rx={bounds.radius}/>
+        </g>
+    );
+};
+
+const ShadowRect = ({ offset = DefaultOffset, bounds }) => (
+    <rect
+        fill="#888"
+        x={offset.x + bounds.padding}
+        y={offset.y + bounds.padding + bounds.height - bounds.radius}
+        width={bounds.width}
+        height={2 * bounds.radius}
+        rx={bounds.radius}/>
+);
 
 
-function createWhiteKeyPathData (offsetX, type, targetOuterHeight) {
 
-    const { left, right } = resolveCutoutMargin(type);
-    const upperWidth = KeyWidth - left - right;
+function createWhiteKeyPathData (type, offset = DefaultOffset, bounds) {
+
+    const { height, width, padding, radius } = bounds;
+
+    const { wl, wc, wr } = resolveWidths(type, width);
 
     const k = WhiteKeyCutoutHeight / WhiteKeyHeight;
-    const cutOutHeight = Math.round(targetOuterHeight * k);
+    const cutoutHeight = height * k;
+    const unCutoutHeight = height - cutoutHeight;
 
-    const pathData = [
-        `M${ offsetX + Padding },${ targetOuterHeight + Padding - CornerRadius }`,
-        "a 2 2 0 0 0 2,2",
-        "h" + (30 - 2 * 2),
-        "a 2 2 0 0 0 2,-2",
-        "v" + (-65 + 2 * 2),
-        "a 2 2 0 0 0 -2,-2",
-        "h" + (-10),
-        "a 2 2 0 0 1 -2,-2",
-        "v" + (-110 + 2 * 2),
-        "a 2 2 0 0 0 -2,-2",
-        "h" + (-12),
-        "a 2 2 0 0 0 -2,2",
-        "z"
-    ];
+    const d = 2 * radius, r = radius;
 
-    return pathData.join(' ');
+    const path = new PathBuilder()
+        .M(offset.x + padding, offset.y + height + padding - radius)
+        .a(r,r)
+        .h(width - d)
+        .a(r,-r)
+
+    if (wr > 0) {
+        path
+            .v(-unCutoutHeight + d)
+            .a(-r,-r)
+            .h(- wr + d)
+            .a(-r,-r, 1)
+            .v(- cutoutHeight + d);
+    } else {
+        path
+            .v(-height + d)
+    }
+
+    path
+        .a(-r,-r)
+        .h(- wc + d)
+        .a(-r, r);
+
+    if (wl > 0) {
+        path
+            .v(cutoutHeight - d)
+            .a(-r, r, 1)
+            .h(- wl + d)
+            .a(-r, r)
+            .v(unCutoutHeight - d);
+    } else {
+        path
+            .v(height - d);
+    }
+
+    path.close();
+    return path.build();
 }
 
 
-function resolveCutoutMargin (type = 'L') {
+function resolveWidths (type = 'L', width) {
 
     let left = 0, right = 0;
 
@@ -79,6 +129,12 @@ function resolveCutoutMargin (type = 'L') {
             throw new Error('Unknown note type: ' + type);
     }
 
-    return { left, right };
+    const wl = left * width / KeyWidth;
+    const wr = right * width / KeyWidth;
+    return {
+        wl,
+        wc: width - wl - wr,
+        wr
+    };
 }
 
