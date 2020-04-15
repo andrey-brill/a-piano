@@ -2,28 +2,27 @@
 import { AResponsiveReact, AResponsiveContainers, ReactDom, React } from '../chunk-e.js';
 
 import './App.scss';
-import { Logo } from './Logo.jsx';
-import { Content } from './Content.jsx';
+import { Logo } from './base/Logo.jsx';
 import { Piano } from './piano/Piano.jsx';
+import { ContextProvider } from './base/Context.jsx';
+import { ResponsivePixel } from './base/ResponsivePixel.jsx';
+import { DelayRender } from './base/DelayRender.jsx';
 
 
-const { ResponsiveWindow, ResponsiveElement, ResponsiveContainer } = AResponsiveReact;
-
-const container = {
-    rcResize: AResponsiveContainers.rcResize
- }
+const { ResponsiveWindow, ResponsiveElement } = AResponsiveReact;
 
 const App = () => (
-    <ResponsiveWindow>
-        <ResponsiveContainer container={container}>
+    <ContextProvider>
+        <ResponsiveWindow>
             <ResponsiveElement id="app" roCreator={AResponsiveContainers.commonProperties()}>
-                <Logo/>
-                <Content>
+                <ResponsivePixel/>
+                <DelayRender> {/* Making sure that responsive pixel was rendered */}
+                    <Logo/>
                     <Piano/>
-                </Content>
+                </DelayRender>
             </ResponsiveElement>
-        </ResponsiveContainer>
-    </ResponsiveWindow>
+        </ResponsiveWindow>
+    </ContextProvider>
 );
 
 export function renderApp (id = 'root') {

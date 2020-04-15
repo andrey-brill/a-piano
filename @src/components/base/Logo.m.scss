@@ -1,11 +1,12 @@
 
-.container {
-    min-height: 30vh;
-    display: flex;
-    align-items: flex-end;
-}
-
 .logo {
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 10vh;
+    height: 20vh;
 
     .text {
         fill: var(--white);

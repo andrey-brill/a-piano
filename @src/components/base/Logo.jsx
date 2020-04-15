@@ -1,6 +1,5 @@
 
-import { React } from '../chunk-e.js';
-import { Content } from './Content.jsx';
+import { React } from '../../chunk-e.js';
 
 import style from './Logo.m.scss';
 
@@ -19,10 +18,10 @@ const LogoPath = ({ className }) => (
 
 
 export const Logo = () => (
-    <Content className={style.container}>
-        <svg className={style.logo} width="100%" viewBox="0 0 446 128" xmlns="http://www.w3.org/2000/svg">
+    <div>
+        <svg className={style.logo} viewBox="0 0 446 128" xmlns="http://www.w3.org/2000/svg">
             <LogoPath className={style.shadow}/>
             <LogoPath className={style.text}/>
         </svg>
-    </Content>
+    </div>
 );
