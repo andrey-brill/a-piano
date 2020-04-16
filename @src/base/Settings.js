@@ -1,5 +1,5 @@
 
-import { IsMobile, PixelWidth, PixelHeight, FromKey, DefFromKey, ToKey, DefToKey, MinNumberOfContentKeys, KeyOuterWidth, NumberOfWhiteNotes, PianoHeight, CornerRadius, Padding, KeyOuterHeight, WhiteKeyHeight, KeyWidth, OctaveOuterHeight } from './Constants.js';
+import { IsMobile, PixelWidth, PixelHeight, FromKey, KeyC3Index, ToKey, KeyB4Index, MinNumberOfContentKeys, KeyOuterWidth, NumberOfWhiteNotes, PianoHeight, CornerRadius, Padding, KeyOuterHeight, WhiteKeyHeight, KeyWidth, OctaveOuterHeight, KeyHeight, BlackKeyHeight, BlackKeyWidth, OctaveHeight } from './Constants.js';
 import { Changeable } from './Changeable.js';
 
 
@@ -11,8 +11,8 @@ const DefaultSettings = {
     [PixelHeight]: null,
 
     // user settings
-    [FromKey]: DefFromKey,
-    [ToKey]: DefToKey
+    [FromKey]: null,
+    [ToKey]: KeyB4Index
 };
 
 export class Settings extends Changeable {
@@ -56,16 +56,37 @@ export class Settings extends Changeable {
     pwPianoSize () {
         return {
             width: this.pw(NumberOfWhiteNotes * KeyOuterWidth),
-            height: this.pw(PianoHeight)
+            height: this.ph(PianoHeight)
         }
     }
 
-    pxWhiteKeyBounds () {
-        return {
-            radius : this.pw(CornerRadius),   // TODO check, maybe use min(pw, ph)
-            padding: this.pw(Padding),        // TODO check, maybe use min(pw, ph)
+    pxKeyCommons (options) {
+        return Object.assign({
+            radius : this.pw(CornerRadius), // must be the same for x and y
+            padding: this.pw(Padding), // must be the same for x and y
             width: this.pw(KeyWidth),
+            height: this.ph(KeyHeight)
+        }, options)
+    }
+
+    pxWhiteKeyBounds () {
+        return this.pxKeyCommons({
             height: this.ph(WhiteKeyHeight)
-        }
+        });
+    }
+
+    pxBlackKeyBounds () {
+        return this.pxKeyCommons({
+            width: this.pw(BlackKeyWidth),
+            height: this.ph(BlackKeyHeight),
+        });
+    }
+
+    pxOctaveBounds () {
+        return this.pxKeyCommons({
+            width: null, // width will be calculated based on keyWidth
+            keyWidth: this.pw(KeyWidth),
+            height: this.ph(OctaveHeight)
+        });
     }
 }

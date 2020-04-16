@@ -1,52 +1,83 @@
 
 import { React } from '../../chunk-e.js';
-import { KeyWidth, CornerRadius, WhiteKeyHeight, WhiteKeyCutoutHeight, Padding, KeyOuterWidth } from '../../base/Constants.js';
+import { KeyWidth, WhiteKeyHeight, WhiteKeyCutoutHeight, BlackKeyTopHeight, BlackKeyHeight, KeyOuterWidth } from '../../base/Constants.js';
 import { PathBuilder } from './PathBuilder.js';
+import { ShadowRect } from './ShadowRect.jsx';
 
 
 const DefaultOffset = Object.freeze({ x: 0, y: 0 });
 
 
-export const WhiteKey = ({ name, type, offset, bounds }) => {
+export const WhiteKey = ({ note, offsetY, bounds }) => {
 
     // make <KeyState pressed={}><KeyNote/>
     // try use one .m.scss file for sharing css classes (.white-key .white-key-shadow)
+
+    const offset = {
+        x: note.index * (2 * bounds.padding + bounds.width),
+        y: offsetY
+    };
+
     return (
-        <g className='white-key' name={name}>
-            <ShadowRect offset={offset} bounds={bounds}/>
-            <path fill="#fff" d={createWhiteKeyPathData(type, offset, bounds)}/>
+        <g className='white-key' name={note.name}>
+            <ShadowRect fill="#888" offset={offset} bounds={bounds}/>
+            <path fill="#fff" d={createWhiteKeyPathData(note.type, offset, bounds)}/>
         </g>
     );
 };
 
-export const BlackKey = ({ name, offset, bounds }) => {
+
+const BlackKeyOffsetFromIndex = {
+    C: 19,
+    D: 27,
+    F: 19,
+    G: 23,
+    A: 27
+}
+
+function calcBlackOffsetX (note, whiteOuterWidth) {
+
+    const offset = BlackKeyOffsetFromIndex[note.letter] / KeyOuterWidth;
+    if (isNaN(offset)) {
+        console.log('note', note);
+        throw new Error();
+    }
+
+    return (note.index + offset) * whiteOuterWidth;
+}
+
+export const BlackKey = ({ note, offsetY, bounds, whiteOuterWidth }) => {
 
     // make <KeyState pressed={}><KeyNote/>
     // try use one .m.scss file for sharing css classes (.white-key .white-key-shadow)
+
+    const offset = {
+        x: calcBlackOffsetX(note, whiteOuterWidth),
+        y: offsetY
+    };
+
+    const topHeight = bounds.height * BlackKeyTopHeight / BlackKeyHeight;
+
     return (
         <g className='black-key' name={name}>
+            <ShadowRect fill="#444" offset={offset} bounds={bounds}/>
             <rect
-                fill="#000"
+                fill="#555"
                 x={offset.x + bounds.padding}
                 y={offset.y + bounds.padding}
                 width={bounds.width}
                 height={bounds.height}
                 rx={bounds.radius}/>
+            <rect
+                fill="#333"
+                x={offset.x + bounds.padding}
+                y={offset.y + 3 * bounds.padding}
+                width={bounds.width}
+                height={topHeight - 2 * bounds.padding}
+                rx={bounds.radius}/>
         </g>
     );
 };
-
-const ShadowRect = ({ offset = DefaultOffset, bounds }) => (
-    <rect
-        fill="#888"
-        x={offset.x + bounds.padding}
-        y={offset.y + bounds.padding + bounds.height - bounds.radius}
-        width={bounds.width}
-        height={2 * bounds.radius}
-        rx={bounds.radius}/>
-);
-
-
 
 function createWhiteKeyPathData (type, offset = DefaultOffset, bounds) {
 

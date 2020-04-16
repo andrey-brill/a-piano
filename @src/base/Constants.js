@@ -17,8 +17,9 @@ export const
     // NumberOfKeyboardKeys = 14,
 
     // based on 88-keyboard (52 white + 36 black) to have C4 in the middle
-    DefFromKey = 2 + 2 * OctaveSize,  // C3
-    DefToKey = DefFromKey + 2 * OctaveSize - 1, // B4
+    KeyC3Index = 2 + 2 * OctaveSize,
+    KeyC4Index = KeyC3Index + OctaveSize,
+    KeyB4Index = KeyC4Index + OctaveSize - 1,
 
     MinKey = 0, // A0 == 0
     MaxKey = NumberOfWhiteNotes - 1, // C8 == 51
@@ -47,8 +48,14 @@ export const
     WhiteKeyCutoutHeight = 110,
     WhiteKeyOuterHeight = WhiteKeyHeight + HeightPadding,
 
+    BlackKeyWidth = 18,
+    BlackKeyHeight = 106,
+    BlackKeyTopHeight = 94,
+
     OctaveHeight = KeyHeight,
     OctaveOuterHeight = KeyOuterHeight,
+
+    OctaveFontSize = 13,
 
     PianoHeight = OctaveOuterHeight + WhiteKeyOuterHeight,
     ControlsHeight = KeyOuterHeight,

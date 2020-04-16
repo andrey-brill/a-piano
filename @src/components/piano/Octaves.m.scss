@@ -1,0 +1,14 @@
+
+.octaves {
+    position: relative;
+}
+
+.octave {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    color: var(--octave-text-color);
+    letter-spacing: 1px;
+}

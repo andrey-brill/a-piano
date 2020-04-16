@@ -1,6 +1,6 @@
 
 import { React, AResponsiveReact, AResponsiveContainers } from '../../chunk-e.js';
-import { FromKey, IsMobile, PixelWidth, PixelHeight, PianoTotalHeight, KeyOuterWidth, ToKey } from '../../base/Constants.js';
+import { FromKey, IsMobile, PixelWidth, PixelHeight, PianoTotalHeight, ToKey, KeyC4Index, KeyC3Index } from '../../base/Constants.js';
 import { Context } from './Context.jsx';
 
 
@@ -19,13 +19,18 @@ export const ResponsivePixel = React.memo(() => {
 
     function updateSize () {
 
-        const { width, heigh, diagonal, pRx } = resolvedRo;
+        const { width, height, diagonal, pRx } = resolvedRo;
 
         const isMobile = AResponsiveContainers.isSmallScreen(diagonal);
+        if (settings.isNull(FromKey)) {
+            console.log('here');
+            settings.set(FromKey, isMobile ? KeyC4Index : KeyC3Index);
+        }
+
         const ContentWidth = settings.getContentWidth();
 
         // mobile first
-        let pw = width / ContentWidth, ph = heigh / PianoTotalHeight;
+        let pw = width / ContentWidth, ph = Math.min(height, width) / PianoTotalHeight;
 
         if (!isMobile) {
             if (pRx * ContentWidth <= width) {
@@ -41,8 +46,8 @@ export const ResponsivePixel = React.memo(() => {
             [PixelHeight]: ph
         });
 
+        console.log(isMobile, pw, ph);
     }
-
 
     function onResize (resolved) {
         resolvedRo = resolved;

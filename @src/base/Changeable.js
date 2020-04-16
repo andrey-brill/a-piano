@@ -9,6 +9,10 @@ export class Changeable {
         this.listeners = [];
     }
 
+    isNull (property) {
+        return this.get(property) === null;
+    }
+
     get (property) {
         const value = this.state[property];
         if (value === undefined) {

@@ -15,6 +15,12 @@ export class Notes extends Changeable {
         if (this.notes.length !== NumberOfNotes) {
             throw new Error('WTF?');
         }
+
+        this.octaves = initializeOctaves(notes);
+    }
+
+    mapOctaves (fn) {
+        return this.octaves.map(fn);
     }
 
     map (fn) {
@@ -32,12 +38,14 @@ function initializeNotes () {
 
     const C = 0, A = 5, B = 6;
     const letters = 'C,D,E,F,G,A,B'.split(',');
-    const flats = '-,C#,D#,-,#F,#G,#A'.split(',');
-    const sharps = 'C#,D#,-,#F,#G,#A,-'.split(',');
+    const flats = '-,C#,D#,-,F#,G#,A#'.split(',');
+    const sharps = 'C#,D#,-,F#,G#,A#,-'.split(',');
     const types = 'L,C,R,L,CL,CR,R'.split(',');
 
     function note (name, white, options = {}) {
         return Object.assign({
+            letter: name[0],
+            octave: name[name.length - 1],
             name,
             white,
             black: !white,
@@ -111,4 +119,46 @@ function indexByName (notes) {
     }
 
     return notesByName;
+}
+
+
+const OctaveNames = {
+    1: 'I',
+    2: 'II',
+    3: 'III',
+    4: 'IV',
+    5: 'V',
+    6: 'VI',
+    7: 'VII',
+    8: 'VIII'
+}
+
+function initializeOctaves (notes) {
+
+    const octaves = {};
+
+    for (let note of notes) {
+
+        if (!note.white) {
+            continue;
+        }
+
+        let octave = octaves[note.octave];
+        if (!octave) {
+            octave = octaves[note.octave] = {
+                octave: note.octave,
+                name: (OctaveNames[note.octave] || ''),
+                index: note.index,
+                length: 0
+            }
+        }
+
+        octave.length += 1;
+    };
+
+    const octaveKeys = Object.keys(octaves);
+    octaveKeys.sort();
+
+    return octaveKeys.map( key => octaves[key] );
+
 }
