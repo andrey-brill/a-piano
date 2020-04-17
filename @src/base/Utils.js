@@ -18,3 +18,7 @@ export function strictHeight (height) {
 export function strictSize (width, height) {
     return Object.assign(strictWidth(width), strictHeight(height));
 }
+
+export function safeNumber (value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}

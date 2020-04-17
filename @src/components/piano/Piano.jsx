@@ -1,12 +1,11 @@
 
 import { React } from '../../chunk-e.js';
 import { Content } from '../base/Content.jsx';
-import { PianoOffset } from './PianoOffset.jsx';
-import { WhiteKey, BlackKey } from './Keys.jsx';
+import { PianoKeys } from '../keys/PianoKeys.jsx';
 import { Context } from '../base/Context.jsx';
-import { PixelHeight, PixelWidth } from '../../base/Constants.js';
+import { Sizes, ContentKeysInterval, VisibleKeysInterval } from '../../base/Constants.js';
 import { strictSize } from '../../base/Utils.js';
-import { Octaves, OctaveNames } from './Octaves.jsx';
+import { OctaveNames, Octaves } from './Octaves.jsx';
 
 
 
@@ -14,36 +13,30 @@ export const Piano = () => {
 
     const { settings, notes } = React.useContext(Context);
 
-    const [ size, setSize ] = React.useState(settings.pwPianoSize());
+    const [ sizes, setSizes ] = React.useState(settings.get(Sizes));
 
     React.useEffect(() => settings.onChange((key) => {
-        if (key === PixelHeight || key === PixelWidth) setSize(settings.pwPianoSize());
+        if (key === Sizes) setSizes(settings.get(Sizes));
     }), []);
 
-    const { width, height } = size;
+    const { width, height } = sizes.pianoOuterSize;
 
-    const whiteKeyBounds = settings.pxWhiteKeyBounds();
-    const blackKeyBounds = settings.pxBlackKeyBounds();
+    const { keyOuterWidth, whiteKeyBounds, blackKeyBounds, octaveBounds }= sizes;
 
-    const keyWidth = settings.pwKeyOuterWidth();
-    const offsetY = settings.phOctaveOuterHeight();
+    const { visibleOffsetX, visibleNotes, visibleOctaves } = notes.resolveVisible(settings.get(ContentKeysInterval), settings.get(VisibleKeysInterval));
+
+    const keysOffset = {
+        x: visibleOffsetX * keyOuterWidth,
+        y: sizes.octaveOuterHeight
+    }
 
     return (
-        <Content>
-            <PianoOffset>
-                <OctaveNames/>
+        <Content width={width}>
+                <OctaveNames bounds={octaveBounds} octaves={visibleOctaves}/>
                 <svg viewBox={`0 0 ${width} ${height}`} style={strictSize(width, height)} xmlns="http://www.w3.org/2000/svg">
-                    <Octaves/>
-                    { notes.map( function (note) {
-                            if (note.white) {
-                                return (<WhiteKey key={note.name} note={note} offsetY={offsetY} bounds={whiteKeyBounds}/>);
-                            } else {
-                                return (<BlackKey key={note.name} note={note} offsetY={offsetY} bounds={blackKeyBounds} whiteOuterWidth={keyWidth}/>);
-                            }
-                        })
-                    }
+                    <Octaves bounds={octaveBounds} octaves={visibleOctaves}/>
+                    <PianoKeys notes={visibleNotes} offset={keysOffset} whiteKeyBounds={whiteKeyBounds} blackKeyBounds={blackKeyBounds}/>
                 </svg>
-            </PianoOffset>
         </Content>
     );
 };

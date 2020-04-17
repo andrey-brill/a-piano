@@ -1,21 +1,14 @@
 
 import { React } from '../../chunk-e.js';
-import { ShadowRect } from './ShadowRect.jsx';
-import { Context } from '../base/Context.jsx';
-import { OctaveFontSize } from '../../base/Constants.js';
+import { ShadowRect } from '../base/ShadowRect.jsx';
 
 import style from './Octaves.m.scss';
 
 
-export const Octaves = () => {
-
-    const { settings, notes } = React.useContext(Context);
-
-    const bounds = settings.pxOctaveBounds();
-
+export const Octaves = ({ bounds, octaves }) => {
     return (
         <g>
-            {notes.mapOctaves( ({ index, length, octave }) => <Octave key={octave} index={index} length={length} bounds={bounds}/> )}
+            {octaves.map( ({ index, length, octave }) => <Octave key={octave} index={index} length={length} bounds={bounds}/> )}
         </g>
     )
 };
@@ -38,16 +31,13 @@ const Octave = ({ index, length, bounds }) => {
     )
 };
 
-export const OctaveNames = () => {
+export const OctaveNames = ({ bounds, octaves }) => {
 
-    const { settings, notes } = React.useContext(Context);
-
-    const bounds = settings.pxOctaveBounds();
-    const fontSize = settings.ph(OctaveFontSize);
+    const { fontSize } = bounds;
 
     return (
         <div className={style.octaves} style={{ fontSize }}>
-            {notes.mapOctaves( ({ index, length, octave, name }) => <OctaveName key={octave} name={name} index={index} length={length} bounds={bounds}/> )}
+            {octaves.map( ({ index, length, octave, name }) => <OctaveName key={octave} name={name} index={index} length={length} bounds={bounds}/> )}
         </div>
     )
 }
@@ -70,20 +60,20 @@ const OctaveName = ({ index, length, name, bounds }) => {
     )
 };
 
-function resolveBounds(bounds, index, length) {
+function resolveBounds (bounds, index, length) {
 
-    const { padding, radius, keyWidth, height } = bounds;
+    const { padding, radius, width, height } = bounds;
 
     const offset = {
         y: 0,
-        x: index * (2 * padding + keyWidth)
+        x: index * (2 * padding + width)
     };
 
     const octaveBounds = {
         padding,
         radius,
         height,
-        width: length * keyWidth + (length - 1) * (2 * padding)
+        width: length * width + (length - 1) * (2 * padding)
     };
 
     return { offset, octaveBounds };

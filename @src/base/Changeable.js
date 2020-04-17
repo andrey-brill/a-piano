@@ -9,10 +9,6 @@ export class Changeable {
         this.listeners = [];
     }
 
-    isNull (property) {
-        return this.get(property) === null;
-    }
-
     get (property) {
         const value = this.state[property];
         if (value === undefined) {
@@ -22,36 +18,28 @@ export class Changeable {
         }
     }
 
-    set (property, value) {
+    set (property, value, silent = false) {
+
         if (this.get(property) !== value) {
             this.state[property] = value;
-            this.triggerChange(property);
-        }
-    }
 
-    setAll (object) {
-
-        const changed = [];
-        for (let property in object) {
-
-            const value = object[property];
-
-            if (this.get(property) !== value) {
-                changed.push(property);
-                this.state[property] = value;
+            if (!silent) {
+                this.triggerChange(property);
             }
         }
 
-        for (let property of changed) {
-            this.triggerChange(property);
-        }
+        return value;
     }
 
-    apply (property, key, keyValue) {
+    apply (property, key, keyValue, silent = false) {
+
         const value = this.get(property);
         if (value[key] !== keyValue) {
             value[key] = keyValue;
-            this.triggerChange(property);
+
+            if (!silent) {
+                this.triggerChange(property);
+            }
         }
     }
 

@@ -1,7 +1,9 @@
 
 import { React, AResponsiveReact, AResponsiveContainers } from '../../chunk-e.js';
-import { FromKey, IsMobile, PixelWidth, PixelHeight, PianoTotalHeight, ToKey, KeyC4Index, KeyC3Index } from '../../base/Constants.js';
+import { ContentKeysInterval, Sizes, KeyC4Index, KeyC3Index, KeyB4Index, VisibleKeysInterval } from '../../base/Constants.js';
 import { Context } from './Context.jsx';
+import { KeysInterval } from '../../base/KeysInterval.js';
+import { createSizes, calcNumberOfVisibleKeys } from '../../base/Sizes.js';
 
 
 export const ResponsivePixel = React.memo(() => {
@@ -15,38 +17,30 @@ export const ResponsivePixel = React.memo(() => {
         pRx: 0.25
     };
 
-    let resolvedRo = {};
+    let resolvedRo = undefined;
 
     function updateSize () {
 
         const { width, height, diagonal, pRx } = resolvedRo;
 
         const isMobile = AResponsiveContainers.isSmallScreen(diagonal);
-        if (settings.isNull(FromKey)) {
-            console.log('here');
-            settings.set(FromKey, isMobile ? KeyC4Index : KeyC3Index);
+
+        let contentKeysInterval = settings.get(ContentKeysInterval);
+
+        if (contentKeysInterval === null) {
+            const from = isMobile ? KeyC4Index : KeyC3Index;
+            contentKeysInterval = settings.set(ContentKeysInterval, new KeysInterval(from, KeyB4Index));
         }
 
-        const ContentWidth = settings.getContentWidth();
+        const { from, to, length: numberOfContentKeys } = contentKeysInterval;
 
-        // mobile first
-        let pw = width / ContentWidth, ph = Math.min(height, width) / PianoTotalHeight;
+        const sizes = createSizes(isMobile, width, height, pRx, numberOfContentKeys);
+        const numberOfVisibleKeys = calcNumberOfVisibleKeys(numberOfContentKeys, width, sizes.keyOuterWidth);
+        const keysOffset = (numberOfVisibleKeys - numberOfContentKeys) / 2;
+        const visibleKeysInterval = new KeysInterval(from - keysOffset, to + keysOffset);
 
-        if (!isMobile) {
-            if (pRx * ContentWidth <= width) {
-                pw = ph = pRx;
-            } else {
-                ph = pw; // for big screen saving aspect ratio
-            }
-        }
-
-        settings.setAll({
-            [IsMobile]: isMobile,
-            [PixelWidth]: pw,
-            [PixelHeight]: ph
-        });
-
-        console.log(isMobile, pw, ph);
+        settings.set(VisibleKeysInterval, visibleKeysInterval, true);
+        settings.set(Sizes, sizes);
     }
 
     function onResize (resolved) {
@@ -55,7 +49,7 @@ export const ResponsivePixel = React.memo(() => {
     }
 
     settings.onChange( function (setting) {
-        if (setting === FromKey || setting === ToKey) {
+        if (resolvedRo && setting === ContentKeysInterval) {
             updateSize();
         }
     });

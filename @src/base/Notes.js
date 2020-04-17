@@ -15,16 +15,46 @@ export class Notes extends Changeable {
         if (this.notes.length !== NumberOfNotes) {
             throw new Error('WTF?');
         }
-
-        this.octaves = initializeOctaves(notes);
     }
 
-    mapOctaves (fn) {
-        return this.octaves.map(fn);
+    resolveVisible (contentInterval, visibleInterval) {
+
+        const fromDelta = contentInterval.from - visibleInterval.from;
+        const toDelta = visibleInterval.to - contentInterval.to;
+        const max = Math.max(fromDelta, toDelta);
+        const visibleOffsetX = max - fromDelta;
+
+        const notes = this.filterByInterval(visibleInterval.from, visibleInterval.to);
+
+        let lastWhite = undefined;
+        let nextWhiteIndex = 0;
+        for (let note of notes) {
+            // must be redefined for all (as note = global object)
+            if (note.white) {
+                note.index = nextWhiteIndex;
+
+                note.isLast = false;
+                note.isFirst = nextWhiteIndex === 0;
+
+                nextWhiteIndex++; // resolving local indexes
+                lastWhite = note;
+            } else if (note.black) {
+                note.index = nextWhiteIndex - 1;
+            }
+        }
+
+        lastWhite.isLast = true;
+
+        return {
+            visibleOffsetX,
+            visibleNotes: notes,
+            visibleOctaves: buildOctaves(notes)
+        }
     }
 
-    map (fn) {
-        return this.notes.map(fn);
+    filterByInterval (fromIndex, toIndex) {
+        return this.notes.filter( note => fromIndex <= note.whiteIndex &&
+            (note.whiteIndex < toIndex || (note.whiteIndex === toIndex && note.white)) );
     }
 
     pressed (noteName, pressed) {
@@ -40,7 +70,6 @@ function initializeNotes () {
     const letters = 'C,D,E,F,G,A,B'.split(',');
     const flats = '-,C#,D#,-,F#,G#,A#'.split(',');
     const sharps = 'C#,D#,-,F#,G#,A#,-'.split(',');
-    const types = 'L,C,R,L,CL,CR,R'.split(',');
 
     function note (name, white, options = {}) {
         return Object.assign({
@@ -62,8 +91,7 @@ function initializeNotes () {
         const sharp = sharps[noteIndex];
 
         return note(letter + octave, true, Object.assign({
-            index: whiteIndex++,
-            type: types[noteIndex],
+            whiteIndex: whiteIndex++,
             flat: flat === '-' ? null : (flat + octave),
             sharp: sharp === '-' ? null : (sharp + octave)
         }, options));
@@ -71,13 +99,11 @@ function initializeNotes () {
 
     function black (white) {
         return note(white.sharp, false, {
-            index: white.index
+            whiteIndex: white.whiteIndex
         });
     }
 
-    const A0 = white(A, 0, {
-        type: 'L'
-    });
+    const A0 = white(A, 0);
     const As0 = black(A0);
     const B0 = white(B, 0);
 
@@ -98,9 +124,7 @@ function initializeNotes () {
         }
     }
 
-    notes.push(white(C, 8, {
-        type: '-'
-    }));
+    notes.push(white(C, 8));
 
     return notes;
 }
@@ -133,7 +157,7 @@ const OctaveNames = {
     8: 'VIII'
 }
 
-function initializeOctaves (notes) {
+function buildOctaves (notes) {
 
     const octaves = {};
 

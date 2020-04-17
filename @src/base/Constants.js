@@ -1,8 +1,5 @@
 
 
-const GridK = 30.0;
-
-
 export const
 
     OctaveSize = 7,
@@ -10,8 +7,6 @@ export const
     NumberOfNotes = 88,
     NumberOfWhiteNotes = 52,
     NumberOfBlackNotes = 36,
-
-    GridPadding = 1,
 
     // from Tilde to BackspaceKey and from Tab to Enter for desktop
     // NumberOfKeyboardKeys = 14,
@@ -23,49 +18,17 @@ export const
 
     MinKey = 0, // A0 == 0
     MaxKey = NumberOfWhiteNotes - 1, // C8 == 51
-    MinNumberOfContentKeys = OctaveSize + 1,
-
-    IsMobile = 'IsMobile',
-
-    PixelWidth = 'PixelWidth',
-    PixelHeight = 'PixelHeight',
-
-    // the next values in stretched pixels
-    ShadowOffset = 2,
-    CornerRadius = 2,
-
-    Padding = 1,
-    WidthPadding = 2 * Padding,
-    HeightPadding = 2 * Padding + ShadowOffset,
-
-    KeyWidth = 30,
-    KeyOuterWidth = KeyWidth + WidthPadding,
-
-    KeyHeight = 30,
-    KeyOuterHeight = KeyHeight + HeightPadding,
-
-    WhiteKeyHeight = 175,
-    WhiteKeyCutoutHeight = 110,
-    WhiteKeyOuterHeight = WhiteKeyHeight + HeightPadding,
-
-    BlackKeyWidth = 18,
-    BlackKeyHeight = 106,
-    BlackKeyTopHeight = 94,
-
-    OctaveHeight = KeyHeight,
-    OctaveOuterHeight = KeyOuterHeight,
-
-    OctaveFontSize = 13,
-
-    PianoHeight = OctaveOuterHeight + WhiteKeyOuterHeight,
-    ControlsHeight = KeyOuterHeight,
-    PianoTotalHeight = PianoHeight + ControlsHeight
+    MinNumberOfContentKeys = OctaveSize + 1
 
 ;
 
-
-// Preferences keys
+// App settings
 export const
-    FromKey = 'FromKey',
-    ToKey = 'ToKey'
+    Sizes = 'Sizes',
+    VisibleKeysInterval = 'VisibleKeysInterval'
+;
+
+// User settings
+export const
+    ContentKeysInterval = 'ContentKeysInterval'
 ;
