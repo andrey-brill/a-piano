@@ -18,11 +18,15 @@ export class Tones {
         this.tones = tones;
 
         this.triggerAttack = resumeContextOnTrigger((tone) => {
-            this.piano.triggerAttack(tone);
+            if (this.piano.loaded) {
+                this.piano.triggerAttack(tone);
+            }
         });
 
         this.triggerRelease = resumeContextOnTrigger((tone) => {
-            this.piano.triggerRelease(tone);
+            if (this.piano.loaded) {
+                this.piano.triggerRelease(tone);
+            }
         });
     }
 

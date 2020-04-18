@@ -1,4 +1,6 @@
 
+import { resolveTone } from './Utils.js';
+
 
 const MOUSE_ID = 'mouse';
 
@@ -10,47 +12,51 @@ export class PianoMouse {
         this.mouseDown = false;
         this.currentTone = null;
 
-        window.addEventListener('mouseup', this.onUp);
         window.addEventListener('mousedown', this.onDown);
+        window.addEventListener('mousemove', this.onMove);
+        window.addEventListener('mouseup', this.onUp);
 
-        this.listeners = {
-            onMouseLeave: this.onLeave,
-            onMouseEnter: this.onEnter
-        }
+        // preventing mouse events in touch mode
+        this.countTouches = 0;
+        window.addEventListener('touchstart', this.onTouchStart);
+        window.addEventListener('touchend', this.onTouchEnd)
     }
 
-    onLeave = () => {
-        this.release();
-        this.currentTone = null;
+    onTouchStart = (e) => {
+        this.countTouches = e.touches.length;
     }
 
-    onEnter = (e) => {
+    onTouchEnd = (e) => {
+        const count = e.touches.length;
+        setTimeout(() => { this.countTouches = count; }, 10);
+    }
 
-        this.currentTone = e.currentTarget.getAttribute('name');
+    onDown = (e) => {
 
-        if (this.mouseDown) {
+        if (e.button === 0 && this.countTouches === 0) {
+            this.mouseDown = true;
             this.attack();
         }
-    }
-
-    onUp = () => {
-        this.mouseDown = false;
-        this.release();
     }
 
     attack () {
         this.piano.attackTone(MOUSE_ID, this.currentTone);
     }
 
-    release () {
-        this.piano.releaseTone(MOUSE_ID);
-    }
+    onMove = (e) => {
 
-    onDown = (e) => {
-        if (e.button === 0) {
-            this.mouseDown = true;
+        this.currentTone = resolveTone(e.target);
+
+        if (this.mouseDown) {
             this.attack();
         }
     }
+
+
+    onUp = () => {
+        this.mouseDown = false;
+        this.piano.releaseTone(MOUSE_ID);
+    }
+
 
 }

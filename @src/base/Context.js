@@ -4,6 +4,7 @@ import { Settings } from './Settings';
 import { Tones } from './Tones';
 import { Piano } from './Piano';
 import { PianoMouse } from './PianoMouse';
+import { PianoTouches } from './PianoTouches';
 
 
 let context = undefined;
@@ -17,12 +18,14 @@ export function createContext() {
     const tones = new Tones();
     const piano = new Piano(tones, notes);
     const pianoMouse = new PianoMouse(piano);
+    const pianoTouches = new PianoTouches(piano);
 
     return context = {
         notes,
         settings,
         tones,
         piano,
-        pianoMouse
+        pianoMouse,
+        pianoTouches
     }
 }

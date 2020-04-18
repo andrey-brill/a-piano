@@ -1,11 +1,12 @@
 
 import { React } from '../../chunk-e.js';
 import { Context } from '../base/Context.jsx';
+import { TouchableKey } from '../../base/Constants.js';
 
 import style from './Keys.m.scss';
 
 
-export const KeyContainer = ({ children, settings, setting, onListeners = {} }) => {
+export const Container = ({ children, settings, setting, onListeners = {} }) => {
 
     const context = React.useContext(Context);
     const settingsObject = context[settings];
@@ -25,7 +26,7 @@ export const KeyContainer = ({ children, settings, setting, onListeners = {} }) 
         }
     }), []);
 
-    const classNames = [ style.container ];
+    const classNames = [ TouchableKey, style.container ];
     if (keyState.pressed) classNames.push(style.pressed);
     if (keyState.disabled) classNames.push(style.disabled);
 

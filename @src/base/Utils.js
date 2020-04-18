@@ -1,4 +1,7 @@
 
+import { TouchableKey } from './Constants';
+
+
 export function strictWidth (width) {
     return {
         width,
@@ -21,4 +24,14 @@ export function strictSize (width, height) {
 
 export function safeNumber (value, min, max) {
     return Math.max(min, Math.min(max, value));
+}
+
+export function resolveTone (target) {
+
+    if (!target) {
+        return null;
+    }
+
+    const key = target.closest('.' + TouchableKey);
+    return key ? key.getAttribute('name') : null;
 }

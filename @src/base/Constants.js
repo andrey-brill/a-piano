@@ -23,7 +23,9 @@ export const
 
     ToneReleased = 0,
     ToneAttacked = 1,
-    ToneNotReleased = 2 // during SoftPedal
+    ToneNotReleased = 2, // during SoftPedal
+
+    TouchableKey = 'touchable-key'
 ;
 
 // App settings
