@@ -19,9 +19,9 @@ const Octave = ({ index, length, bounds }) => {
 
     return (
         <g>
-            <ShadowRect fill="#888" offset={offset} bounds={octaveBounds}/>
+            <ShadowRect className={style.shadow} offset={offset} bounds={octaveBounds}/>
             <rect
-                fill="#fff"
+                className={style.octave}
                 x={offset.x + octaveBounds.padding}
                 y={offset.y + octaveBounds.padding}
                 width={octaveBounds.width}
@@ -36,7 +36,7 @@ export const OctaveNames = ({ bounds, octaves }) => {
     const { fontSize } = bounds;
 
     return (
-        <div className={style.octaves} style={{ fontSize }}>
+        <div className={style.octaveNames} style={{ fontSize }}>
             {octaves.map( ({ index, length, octave, name }) => <OctaveName key={octave} name={name} index={index} length={length} bounds={bounds}/> )}
         </div>
     )
@@ -54,7 +54,7 @@ const OctaveName = ({ index, length, name, bounds }) => {
     };
 
     return (
-        <div className={style.octave} style={size}>
+        <div className={style.octaveName} style={size}>
             <span>{name}</span>
         </div>
     )

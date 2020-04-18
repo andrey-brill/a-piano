@@ -1,9 +1,9 @@
 
-.octaves {
+.octaveNames {
     position: relative;
 }
 
-.octave {
+.octaveName {
     position: absolute;
     display: flex;
     align-items: center;
@@ -11,4 +11,12 @@
     font-weight: 500;
     color: var(--octave-text-color);
     letter-spacing: 1px;
+}
+
+.octave {
+    fill: var(--octave-color);
+}
+
+.shadow {
+    fill: var(--octave-shadow-color);
 }

@@ -7,9 +7,31 @@
     --text-color: var(--black);
     --background-color: #bbbbbb;
 
+    // white key
+    --white-key-color: var(--white);
+    --white-key-shadow-color: #888888;
+
+    --white-key-pressed-color: #00ccf5;
+    --white-key-shadow-pressed-color: #0084c1;
+
+    --white-key-disabled-color: #dddddd;
+    --white-key-hover-color: #dcf6ff;
+
+    // black key
+    --black-key-color: #555555;
+    --black-key-shadow-color: #444444;
+    --black-key-top-color: var(--black);
+    --black-key-top-hover-color: var(--black-key-shadow-color);
+
+    --black-key-pressed-color: var(--white-key-shadow-pressed-color);
+    --black-key-shadow-pressed-color: #336699;
+    --black-key-top-pressed-color: #006394;
+
+    --octave-color: var(--white-key-color);
+    --octave-shadow-color: var(--white-key-shadow-color);
     --octave-text-color: var(--background-color);
 
-    --white-shadow-color: #888888;
+
 }
 
 html, body {

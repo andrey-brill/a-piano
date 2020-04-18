@@ -35,7 +35,11 @@ export const Piano = () => {
                 <OctaveNames bounds={octaveBounds} octaves={visibleOctaves}/>
                 <svg viewBox={`0 0 ${width} ${height}`} style={strictSize(width, height)} xmlns="http://www.w3.org/2000/svg">
                     <Octaves bounds={octaveBounds} octaves={visibleOctaves}/>
-                    <PianoKeys notes={visibleNotes} offset={keysOffset} whiteKeyBounds={whiteKeyBounds} blackKeyBounds={blackKeyBounds}/>
+                    <PianoKeys
+                        notes={visibleNotes}
+                        offset={keysOffset}
+                        whiteKeyBounds={whiteKeyBounds}
+                        blackKeyBounds={blackKeyBounds}/>
                 </svg>
         </Content>
     );

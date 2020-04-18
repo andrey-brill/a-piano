@@ -134,6 +134,12 @@ class Sizes {
             keyOuterWidth,
             keyBounds: keyBounds(),
 
+            paddings: {
+                X1: pw(PaddingPw),
+                X2: 2 * pw(PaddingPw),
+                X4: 4 * pw(PaddingPw)
+            },
+
             octaveOuterHeight,
             octaveBounds: keyBounds({
                 fontSize: ph(OctaveFontSizePh)

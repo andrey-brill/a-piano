@@ -1,0 +1,86 @@
+
+.container {
+
+    cursor: pointer;
+
+    .white {
+
+        .key {
+            fill: var(--white-key-color);
+        }
+
+        .shadow {
+            fill: var(--white-key-shadow-color);
+        }
+
+    }
+
+    .black {
+
+        .key {
+            fill: var(--black-key-color);
+        }
+
+        .shadow {
+            fill: var(--black-key-shadow-color);
+        }
+
+        .top {
+            fill: var(--black-key-top-color);
+            transform: translate(0, var(--pPaddingX2));
+        }
+    }
+
+    &:not(.pressed):not(.disabled) {
+        .white:hover .key {
+            fill: var(--white-key-hover-color);
+        }
+        .black:hover .top {
+            fill: var(--black-key-top-hover-color);
+        }
+    }
+
+    &.pressed:not(.disabled) {
+
+        .white {
+
+            .key {
+                fill: var(--white-key-pressed-color);
+                transform: translate(0, var(--pPaddingX1));
+            }
+
+            .shadow {
+                fill: var(--white-key-shadow-pressed-color);
+            }
+
+        }
+
+        .black {
+
+            .key {
+                fill: var(--black-key-pressed-color);
+                transform: translate(0, var(--pPaddingX1));
+            }
+
+            .shadow {
+                fill: var(--black-key-shadow-pressed-color);
+            }
+
+            .top {
+                fill: var(--black-key-top-pressed-color);
+                transform: translate(0, var(--pPaddingX4));
+            }
+        }
+
+    }
+
+    &.disabled {
+
+        cursor: not-allowed;
+
+        .white .key {
+            fill: var(--white-key-disabled-color);
+        }
+    }
+
+}

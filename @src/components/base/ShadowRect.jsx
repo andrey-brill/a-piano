@@ -2,14 +2,13 @@
 import { React } from '../../chunk-e.js';
 
 
-export const ShadowRect = ({ className, fill, offset, bounds }) => (
+export const ShadowRect = ({ className, offset, bounds }) => (
     <rect
         className={className}
-        fill={fill}
         x={offset.x + bounds.padding}
-        y={offset.y + bounds.padding + bounds.height - bounds.radius}
+        y={offset.y + bounds.padding + bounds.height - 2 * bounds.radius}
         width={bounds.width}
-        height={2 * bounds.radius}
+        height={3 * bounds.radius}
         rx={bounds.radius} />
 );
 

@@ -78,7 +78,8 @@ function initializeNotes () {
             name,
             white,
             black: !white,
-            pressed: false
+            pressed: false,
+            disabled: false
         }, options);
     }
 

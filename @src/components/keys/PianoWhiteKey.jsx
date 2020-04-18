@@ -3,6 +3,8 @@ import { React } from '../../chunk-e.js';
 import { PathBuilder } from '../piano/PathBuilder.js';
 import { ShadowRect } from '../base/ShadowRect.jsx';
 
+import style from './Keys.m.scss';
+
 
 export const PianoWhiteKey = ({ note, offset, bounds }) => {
 
@@ -12,9 +14,9 @@ export const PianoWhiteKey = ({ note, offset, bounds }) => {
     };
 
     return (
-        <g className='white-key' name={note.name}>
-            <ShadowRect fill="#888" offset={keyOffset} bounds={bounds}/>
-            <path fill="#fff" d={createWhiteKeyPathData(note, keyOffset, bounds)}/>
+        <g className={style.white} name={note.name}>
+            <ShadowRect className={style.shadow} offset={keyOffset} bounds={bounds}/>
+            <path className={style.key} d={createWhiteKeyPathData(note, keyOffset, bounds)}/>
         </g>
     );
 };

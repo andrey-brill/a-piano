@@ -20,7 +20,10 @@
 		var piano = new Tone.Sampler(tones, {
 			"release" : 0.75,
 			"curve": 'exponential',
-			"baseUrl" : "./audio/"
+            "baseUrl" : "./audio/",
+            onload: function () {
+
+            }
 		}).toDestination();
 
 		const keysMapping = {
