@@ -1,6 +1,6 @@
 
 import { React, AResponsiveReact, AResponsiveContainers } from '../../chunk-e.js';
-import { ContentKeysInterval, Sizes, KeyC4Index, KeyC3Index, KeyB4Index, VisibleKeysInterval } from '../../base/Constants.js';
+import { ContentKeysInterval, Sizes, KeyC4Index, KeyC3Index, KeyB4Index, KeyC5Index, VisibleKeysInterval } from '../../base/Constants.js';
 import { Context } from './Context.jsx';
 import { KeysInterval } from '../../base/KeysInterval.js';
 import { createSizes, calcNumberOfVisibleKeys } from '../../base/Sizes.js';
@@ -10,7 +10,8 @@ const pianoRo = AResponsiveContainers.commonProperties({
     pWidth: '100w',
     pHeight: '100h',
     pDiagonal: '100d',
-    pRx: 0.25
+    pRx: 0.25,
+    pLogoWidth: 80
 });
 
 
@@ -52,7 +53,8 @@ export class Responsiveness extends React.Component {
 
             if (contentKeysInterval === null) {
                 const from = isMobile ? KeyC4Index : KeyC3Index;
-                contentKeysInterval = settings.set(ContentKeysInterval, new KeysInterval(from, KeyB4Index));
+                const to = isMobile ? KeyC5Index : KeyB4Index;
+                contentKeysInterval = settings.set(ContentKeysInterval, new KeysInterval(from, to));
             }
 
             const { from, to, length: numberOfContentKeys } = contentKeysInterval;

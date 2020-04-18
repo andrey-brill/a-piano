@@ -9,19 +9,19 @@ export class Tones {
 
     constructor () {
 
-        const tonesArray = ["A0", "C1", "D#1", "F#1", "A1", "C2", "D#2", "F#2", "A2", "C3", "D#3", "F#3", "A3", "C4", "D#4", "F#4", "A4", "C5", "D#5", "F#5", "A5", "C6", "D#6", "F#6", "A6", "C7", "D#7", "F#7", "A7", "C8"];
+        const mp3TonesArray = ["A0", "C1", "D#1", "F#1", "A1", "C2", "D#2", "F#2", "A2", "C3", "D#3", "F#3", "A3", "C4", "D#4", "F#4", "A4", "C5", "D#5", "F#5", "A5", "C6", "D#6", "F#6", "A6", "C7", "D#7", "F#7", "A7", "C8"];
 
         const tones = {};
-        for (var tone of tonesArray) {
+        for (var tone of mp3TonesArray) {
             tones[tone] = 'c' + tone.replace('#', 's') + '.mp3';
         }
         this.tones = tones;
 
-        this.triggerAttack = resumeContextOnTrigger(tones, (tone) => {
+        this.triggerAttack = resumeContextOnTrigger((tone) => {
             this.piano.triggerAttack(tone);
         });
 
-        this.triggerRelease = resumeContextOnTrigger(tones, (tone) => {
+        this.triggerRelease = resumeContextOnTrigger((tone) => {
             this.piano.triggerRelease(tone);
         });
     }
@@ -39,13 +39,9 @@ export class Tones {
 
 
 // hack to turn on sound on device
-function resumeContextOnTrigger (tones, fn) {
+function resumeContextOnTrigger (fn) {
 
     return (tone) => {
-
-        if (!tones[tone]) {
-            throw new Error('Unknown tone: ' + tone);
-        }
 
         if (Tone.context.state === 'suspended') {
 

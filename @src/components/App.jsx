@@ -6,13 +6,16 @@ import { ContextProvider } from './base/Context.jsx';
 import { Responsiveness } from './base/Responsiveness.jsx';
 
 import './App.scss';
+import { TonesLoader } from './base/TonesLoader.jsx';
 
 
 const App = () => (
     <ContextProvider>
         <Responsiveness>
             <Logo/>
-            <Piano/>
+            <TonesLoader>
+                <Piano/>
+            </TonesLoader>
         </Responsiveness>
     </ContextProvider>
 );

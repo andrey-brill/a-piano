@@ -1,22 +1,30 @@
 
+
+.container {
+    padding-top: 25vh;
+    padding-bottom: 10vh;
+}
+
+
 .logo {
 
     display: block;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
+    max-width: 80vw;
+    width: var(--pLogoWidth);
 
-    margin-top: 12vh;
-    margin-bottom: 4vh;
-    height: 23vh;
-    max-width: 100vw;
+}
 
-    .text {
-        fill: var(--white);
-    }
+.text {
+    top: 0;
+    left: 0;
+    position: absolute;
+    fill: var(--white);
+}
 
-    .shadow {
-        fill: var(--white-key-shadow-color);
-        transform: translate(0px, 2px);
-    }
-
+.shadow {
+    margin-top: var(--pPaddingX2);
+    fill: var(--white-key-shadow-color);
 }

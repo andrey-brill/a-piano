@@ -5,7 +5,7 @@ import { Context } from '../base/Context.jsx';
 import style from './Keys.m.scss';
 
 
-export const Container = ({ children, settings, setting }) => {
+export const KeyContainer = ({ children, settings, setting, onListeners = {} }) => {
 
     const context = React.useContext(Context);
     const settingsObject = context[settings];
@@ -30,10 +30,7 @@ export const Container = ({ children, settings, setting }) => {
     if (keyState.disabled) classNames.push(style.disabled);
 
     return (
-        <g className={classNames.join(' ')}
-            onClick={ settingValue.onClick }
-            onMouseEnter={settingValue.onMouseEnter}
-            onMouseLeave={settingValue.onMouseLeave}>
+        <g name={setting} className={classNames.join(' ')} {...onListeners}>
             {children}
         </g>
     );

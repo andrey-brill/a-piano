@@ -1,0 +1,74 @@
+
+
+.container {
+    padding-top: 10vh;
+    text-align: center;
+}
+
+
+.loading {
+    display: inline-block;
+}
+
+.content {
+    animation: opacity-animation 2s 1 linear;
+    animation-fill-mode: forwards;
+}
+
+.circleContainer {
+
+    display: inline-block;
+    width: var(--g8);
+    height: var(--g9);
+    position: relative;
+
+    &:not(:first-child) {
+        margin-left: var(--g7);
+    }
+
+    &:first-child .circle {
+        animation: scale-animation-1 1.8s infinite linear;
+    }
+
+    &:last-child .circle {
+        animation: scale-animation-3 1.8s infinite linear;
+    }
+}
+
+.circle {
+    border-radius: var(--g8);
+    width: var(--g8);
+    height: var(--g8);
+    background: var(--white);
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: scale(0);
+    animation: scale-animation-2 1.8s infinite linear;
+}
+
+@keyframes scale-animation-1 {
+    0%   {transform: scale(1);}
+    33%  {transform: scale(0);}
+    67%  {transform: scale(0);}
+    100% {transform: scale(1);}
+}
+
+@keyframes scale-animation-2 {
+    0%   {transform: scale(0);}
+    33%  {transform: scale(1);}
+    67%  {transform: scale(0);}
+    100% {transform: scale(0);}
+}
+
+@keyframes scale-animation-3 {
+    0%   {transform: scale(0);}
+    33%  {transform: scale(0);}
+    67%  {transform: scale(1);}
+    100% {transform: scale(0);}
+}
+
+@keyframes opacity-animation {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
