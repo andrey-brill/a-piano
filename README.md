@@ -5,17 +5,10 @@
 
 __NB! Remote audio output devise (ex. Bluetooth) cause delay in playback of the sound__
 
-### Done
-
-- add mapping keys to edit settings:
-    - Shift - soft-pedal
-    - ArrowLeft - interval to Left
-    - ArrowRight - interval to Right
-    - NumPlus - add, NumMinus - remove
-
 ### Todo
 
 - remake octaves based on usual div-elements
+- increase font size based on width to height aspect
 - make keyboard keys based on div-elements
 - make controls for edit settings: Left,Right (align left), Add,Remove (align Right), Pedal (align center with width 2x)
 

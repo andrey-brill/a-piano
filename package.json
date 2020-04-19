@@ -21,7 +21,9 @@
     "piano",
     "js"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "a-webpack-configs": "^2.0.19"
+  },
   "dependencies": {
     "a-bundle": "^1.0.3",
     "a-responsive-containers": "^1.0.4",
