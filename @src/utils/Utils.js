@@ -1,5 +1,5 @@
 
-import { TouchableKey, Name } from './Constants.js';
+import { TouchableKey, Name } from '../base/Constants.js';
 
 
 export function strictWidth (width) {

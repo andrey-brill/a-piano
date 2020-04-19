@@ -1,6 +1,6 @@
 
 import { Sizes, VisibleKeysInterval, ContentKeysInterval } from './Constants.js';
-import { Changeable } from './Changeable.js';
+import { Changeable } from '../utils/Changeable.js';
 
 
 const DefaultSettings = {

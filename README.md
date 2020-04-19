@@ -1,7 +1,11 @@
 
 # A Piano
 
-# DONE
+### Delay
+
+__NB! Remote audio output devise (ex. Bluetooth) cause delay in playback of the sound__
+
+### Done
 
 - add mapping keys to edit settings:
     - Shift - soft-pedal
@@ -9,13 +13,13 @@
     - ArrowRight - interval to Right
     - NumPlus - add, NumMinus - remove
 
-# TODO
+### Todo
 
 - remake octaves based on usual div-elements
 - make keyboard keys based on div-elements
 - make controls for edit settings: Left,Right (align left), Add,Remove (align Right), Pedal (align center with width 2x)
 
-# FUTURE
+### Future
 
 - pinch tones
 - add possible to use left hand (with keys A S D F...)

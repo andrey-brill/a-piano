@@ -1,5 +1,5 @@
 
-import { resolveTone } from './Utils.js';
+import { resolveTone } from '../utils/Utils.js';
 
 
 const MOUSE_ID = 'mouse';

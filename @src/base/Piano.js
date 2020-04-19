@@ -46,6 +46,10 @@ export class Piano {
 
     pedalRelease () {
 
+        if (!this.soft) {
+            return;
+        }
+
         this.soft = false;
 
         for (let key in this.states) {

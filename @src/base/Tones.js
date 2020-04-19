@@ -32,6 +32,7 @@ export class Tones {
 
     initialize (onload) {
         this.piano = new Tone.Sampler(this.tones, {
+            "attack": 0,
             "release" : 0.75,
             "curve": 'exponential',
             "baseUrl" : "./assets/audio/",

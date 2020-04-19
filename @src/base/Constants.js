@@ -39,3 +39,13 @@ export const
 export const
     ContentKeysInterval = 'ContentKeysInterval'
 ;
+
+
+// ControlKeys
+export const
+    Pedal = 'Pedal',
+    Expand = 'Expand',
+    Shrink = 'Shrink',
+    ShiftLeft = 'ShiftLeft',
+    ShiftRight = 'ShiftRight',
+    IntervalActions = [Expand, Shrink, ShiftLeft, ShiftRight];

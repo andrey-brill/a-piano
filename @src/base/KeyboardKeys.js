@@ -1,10 +1,10 @@
 
-import { Changeable } from './Changeable.js';
-import { indexBy } from './Utils.js';
+import { ChangeableKeys } from '../utils/ChangeableKeys.js';
+import { indexBy } from '../utils/Utils.js';
 import { Name } from './Constants.js';
 
 
-export class KeyboardKeys extends Changeable {
+export class KeyboardKeys extends ChangeableKeys {
 
     constructor () {
         const keys = initializeKeys();
@@ -65,14 +65,6 @@ export class KeyboardKeys extends Changeable {
             }
         }
 
-    }
-
-    disabled (keyName, disabled) {
-        this.apply(keyName, 'disabled', disabled);
-    }
-
-    pressed (keyName, pressed) {
-        this.apply(keyName, 'pressed', pressed);
     }
 
     resolveVisibleKeys (interval) {

@@ -15,10 +15,6 @@ export class PianoKeyboard {
 
     onKeyDown = (e) => {
 
-        if (e.shiftKey && !this.piano.soft) {
-            this.piano.pedalAttack();
-        }
-
         const { code } = e;
         if (!code) {
             return;
@@ -45,10 +41,6 @@ export class PianoKeyboard {
     }
 
     onKeyUp = (e) => {
-
-        if (!e.shiftKey && this.piano.soft) {
-            this.piano.pedalRelease();
-        }
 
         const { code } = e;
         const info = this.pressedKeys[code];

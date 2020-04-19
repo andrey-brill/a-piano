@@ -1,10 +1,10 @@
 
 import { NumberOfNotes, NumberOfWhiteNotes, OctaveSize, Name } from './Constants.js';
-import { Changeable } from './Changeable.js';
-import { indexBy } from './Utils.js';
+import { ChangeableKeys } from '../utils/ChangeableKeys.js';
+import { indexBy } from '../utils/Utils.js';
 
 
-export class Notes extends Changeable {
+export class Notes extends ChangeableKeys {
 
     constructor () {
 
@@ -58,9 +58,6 @@ export class Notes extends Changeable {
         return this.notes.filter(fn);
     }
 
-    pressed (noteName, pressed) {
-        this.apply(noteName, 'pressed', pressed);
-    }
 
 }
 

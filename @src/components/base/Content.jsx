@@ -1,6 +1,6 @@
 
 import { React } from '../../chunk-e.js';
-import { strictWidth } from '../../base/Utils.js';
+import { strictWidth } from '../../utils/Utils.js';
 
 import style from './Content.m.scss';
 

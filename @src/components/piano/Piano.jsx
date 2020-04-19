@@ -4,7 +4,7 @@ import { Content } from '../base/Content.jsx';
 import { PianoKeys } from '../keys/PianoKeys.jsx';
 import { Context } from '../base/Context.jsx';
 import { Sizes, ContentKeysInterval, VisibleKeysInterval } from '../../base/Constants.js';
-import { strictSize } from '../../base/Utils.js';
+import { strictSize } from '../../utils/Utils.js';
 import { OctaveNames, Octaves } from './Octaves.jsx';
 
 
