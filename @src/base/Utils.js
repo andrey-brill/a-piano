@@ -1,5 +1,5 @@
 
-import { TouchableKey } from './Constants';
+import { TouchableKey, Name } from './Constants.js';
 
 
 export function strictWidth (width) {
@@ -33,5 +33,21 @@ export function resolveTone (target) {
     }
 
     const key = target.closest('.' + TouchableKey);
-    return key ? key.getAttribute('name') : null;
+    return key ? key.getAttribute(Name) : null;
+}
+
+export function indexBy (objects, property) {
+
+    const objectsByName = {};
+
+    for (let object of objects) {
+
+        if (objectsByName[object[property]]) {
+            throw new Error('Not unique property: ' + object[property]);
+        }
+
+        objectsByName[object[property]] = object;
+    }
+
+    return objectsByName;
 }

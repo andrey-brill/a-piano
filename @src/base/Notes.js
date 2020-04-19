@@ -1,6 +1,7 @@
 
-import { NumberOfNotes, NumberOfWhiteNotes, OctaveSize } from './Constants.js';
+import { NumberOfNotes, NumberOfWhiteNotes, OctaveSize, Name } from './Constants.js';
 import { Changeable } from './Changeable.js';
+import { indexBy } from './Utils.js';
 
 
 export class Notes extends Changeable {
@@ -8,7 +9,7 @@ export class Notes extends Changeable {
     constructor () {
 
         const notes = initializeNotes();
-        super(indexByName(notes));
+        super(indexBy(notes, Name));
 
         this.notes = notes;
 
@@ -24,7 +25,8 @@ export class Notes extends Changeable {
         const max = Math.max(fromDelta, toDelta);
         const visibleOffsetX = max - fromDelta;
 
-        const notes = this.filterByInterval(visibleInterval.from, visibleInterval.to);
+        const notes = this.filter( note => visibleInterval.from <= note.whiteIndex &&
+            (note.whiteIndex < visibleInterval.to || (note.whiteIndex === visibleInterval.to && note.white)) );
 
         let lastWhite = undefined;
         let nextWhiteIndex = 0;
@@ -52,9 +54,8 @@ export class Notes extends Changeable {
         }
     }
 
-    filterByInterval (fromIndex, toIndex) {
-        return this.notes.filter( note => fromIndex <= note.whiteIndex &&
-            (note.whiteIndex < toIndex || (note.whiteIndex === toIndex && note.white)) );
+    filter (fn) {
+        return this.notes.filter(fn);
     }
 
     pressed (noteName, pressed) {
@@ -128,22 +129,6 @@ function initializeNotes () {
     notes.push(white(C, 8));
 
     return notes;
-}
-
-function indexByName (notes) {
-
-    const notesByName = {};
-
-    for (let note of notes) {
-
-        if (notesByName[note.name]) {
-            throw new Error('Not unique note: ' + note.name);
-        }
-
-        notesByName[note.name] = note;
-    }
-
-    return notesByName;
 }
 
 
