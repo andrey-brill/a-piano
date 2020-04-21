@@ -7,7 +7,6 @@ import { PianoMouse } from './PianoMouse';
 import { PianoTouches } from './PianoTouches';
 import { KeyboardKeys } from './KeyboardKeys';
 import { ControlKeys } from './ControlKeys';
-import { ContentKeysInterval } from './Constants';
 import { PianoKeyboard } from './PianoKeyboard';
 import { PianoControls } from './PianoControls';
 
@@ -19,22 +18,15 @@ export function createContext() {
     if (context) return context;
 
     const notes = new Notes();
-    const keyboardKeys = new KeyboardKeys();
+    const keyboardKeys = new KeyboardKeys(notes);
     const controlKeys = new ControlKeys();
     const settings = new Settings();
     const tones = new Tones();
     const piano = new Piano(tones, notes);
     const pianoMouse = new PianoMouse(piano);
     const pianoTouches = new PianoTouches(piano);
-    const pianoKeyboard = new PianoKeyboard(piano, keyboardKeys);
+    const pianoKeyboard = new PianoKeyboard(piano, keyboardKeys, settings);
     const pianoControls = new PianoControls(piano, controlKeys, settings);
-
-    settings.onChange( (key, interval) => {
-        if (key === ContentKeysInterval && interval) {
-            controlKeys.updateState(interval);
-            keyboardKeys.resolveNotesBinding(interval, notes);
-        }
-    });
 
     window.focus();
 

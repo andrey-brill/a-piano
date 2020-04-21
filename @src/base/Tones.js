@@ -1,8 +1,6 @@
 
 import { Tone } from '../chunk-e.js';
-
-
-const silentAudio = 'data:audio/mp3;base64,//MkxAAHiAICWABElBeKPL/RANb2w+yiT1g/gTok//lP/W/l3h8QO/OCdCqCW2Cw//MkxAQHkAIWUAhEmAQXWUOFW2dxPu//9mr60ElY5sseQ+xxesmHKtZr7bsqqX2L//MkxAgFwAYiQAhEAC2hq22d3///9FTV6tA36JdgBJoOGgc+7qvqej5Zu7/7uI9l//MkxBQHAAYi8AhEAO193vt9KGOq+6qcT7hhfN5FTInmwk8RkqKImTM55pRQHQSq//MkxBsGkgoIAABHhTACIJLf99nVI///yuW1uBqWfEu7CgNPWGpUadBmZ////4sL//MkxCMHMAH9iABEmAsKioqKigsLCwtVTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVV//MkxCkECAUYCAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV'
+import { SilentAudio } from '../utils/SilentAudio.js';
 
 
 export class Tones {
@@ -17,20 +15,13 @@ export class Tones {
         }
         this.tones = tones;
 
-        this.triggerAttack = resumeContextOnTrigger((tone) => {
-            if (this.piano.loaded) {
-                this.piano.triggerAttack(tone);
-            }
-        });
-
-        this.triggerRelease = resumeContextOnTrigger((tone) => {
-            if (this.piano.loaded) {
-                this.piano.triggerRelease(tone);
-            }
-        });
+        this.audioElement = new SilentAudio();
     }
 
     initialize (onload) {
+
+        this.audioElement.appendTo(document.body);
+
         this.piano = new Tone.Sampler(this.tones, {
             "attack": 0,
             "release" : 0.75,
@@ -40,40 +31,31 @@ export class Tones {
         }).toMaster();
     }
 
-}
+    triggerAttack = (tone) => {
+        this.resumeContextOnTrigger('Attack', tone);
+    }
 
+    triggerRelease = (tone) => {
+        this.resumeContextOnTrigger('Release', tone);
+    }
 
-// hack to turn on sound on device
-function resumeContextOnTrigger (fn) {
+    resumeContextOnTrigger (trigger, tone) {
 
-    return (tone) => {
+        this.audioElement.tryToPlay();
 
-        if (Tone.context.state === 'suspended') {
+        if (!this.piano.loaded) {
+            return;
+        }
 
-            const contextPromise = Tone.context.resume();
-
-            // also play a silent audio file which will unmute iOS
-            const audioElement = document.createElement('audio')
-            audioElement.controls = false;
-            audioElement.preload = 'auto';
-            audioElement.loop = false;
-            audioElement.src = silentAudio;
-            audioElement.title = 'SilentAudio';
-
-            let elementPromise = Promise.resolve();
-            try {
-                elementPromise = audioElement.play()
-            } catch (e){
-                elementPromise = Promise.resolve()
-                console.log('did not start audio', e);
-            }
-            Promise
-                .all([elementPromise, contextPromise])
-                .then(function () {
-                    fn(tone);
-                });
+        if (Tone.context.state !== 'suspended') {
+            (this.piano['trigger' + trigger])(tone);
         } else {
-            fn(tone);
+            Tone.context.resume().then(() => {
+                this.resumeContextOnTrigger(trigger, tone);
+            });
         }
     }
 }
+
+
+

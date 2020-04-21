@@ -1,5 +1,5 @@
 
-import { Sizes, VisibleKeysInterval, ContentKeysInterval } from './Constants.js';
+import { Sizes, VisibleKeysInterval, ContentKeysInterval, IsMobile, NumberOfMinimumVisibleKeys } from './Constants.js';
 import { Changeable } from '../utils/Changeable.js';
 
 
@@ -8,6 +8,8 @@ const DefaultSettings = {
     // app settings
     [VisibleKeysInterval]: null,
     [Sizes]: null,
+    [IsMobile]: null,
+    [NumberOfMinimumVisibleKeys]: null,
 
     // user settings
     // [IsRight]: true,

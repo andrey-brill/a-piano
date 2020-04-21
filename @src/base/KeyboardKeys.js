@@ -6,12 +6,14 @@ import { Name } from './Constants.js';
 
 export class KeyboardKeys extends ChangeableKeys {
 
-    constructor () {
+    constructor (notes) {
         const keys = initializeKeys();
         super(indexBy(keys, Name));
 
         this.keys = keys;
         this.keysByCode = indexBy(keys, 'code');
+
+        this.notes = notes;
     }
 
     getNameByCode (code) {
@@ -35,9 +37,9 @@ export class KeyboardKeys extends ChangeableKeys {
         return null;
     }
 
-    resolveNotesBinding (interval, notes) {
+    resolveNotesBinding (interval) {
 
-        const whiteNotes = notes.filter( note => note.whiteIndex >= interval.from && note.white );
+        const whiteNotes = this.notes.filter( note => note.whiteIndex >= interval.from && note.white );
         const whiteKeys = this.keys.filter( key => key.white );
 
         for (let i = 0; i < whiteKeys.length; i++) {

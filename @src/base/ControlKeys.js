@@ -29,12 +29,8 @@ export class ControlKeys extends ChangeableKeys {
         this.controls = controls;
     }
 
-    updateState (interval) {
-        for (let control of this.controls) {
-            if (control.intervalAction) {
-                this.disabled(control.name, !interval.can(control.intervalAction));
-            }
-        }
+    forEach (fn) {
+        this.controls.forEach(fn);
     }
 
 }

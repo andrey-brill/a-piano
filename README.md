@@ -5,8 +5,10 @@
 
 __NB! Remote audio output devise (ex. Bluetooth) cause delay in playback of the sound__
 
+
 ### Todo
 
+- Fix calculating height of black key
 - remake octaves based on usual div-elements
 - increase font size based on width to height aspect
 - make keyboard keys based on div-elements

@@ -1,8 +1,10 @@
 
+import { ContentKeysInterval } from './Constants';
+
 
 export class PianoKeyboard {
 
-    constructor (piano, keyboardKeys) {
+    constructor (piano, keyboardKeys, settings) {
 
         this.piano = piano;
         this.keyboardKeys = keyboardKeys;
@@ -11,6 +13,12 @@ export class PianoKeyboard {
 
         window.addEventListener('keydown', this.onKeyDown);
         window.addEventListener('keyup', this.onKeyUp);
+
+        settings.onChange( (key, interval) => {
+            if (key === ContentKeysInterval && interval) {
+                keyboardKeys.resolveNotesBinding(interval);
+            }
+        });
     }
 
     onKeyDown = (e) => {

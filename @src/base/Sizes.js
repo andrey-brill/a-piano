@@ -53,33 +53,52 @@ const
 
 const VisibleKeysPadding = 2;
 
-export function calcNumberOfVisibleKeys (numberOfContentKeys, width, keyWidth) {
-    const maxKeys = Math.floor(width / keyWidth);
-    const difference = Math.max(0, maxKeys - numberOfContentKeys - VisibleKeysPadding);
+export function calcNumberOfVisibleKeys (isMobile, numberOfContentKeys, width, keyOuterWidth) {
+    const maxKeys = Math.floor(width / keyOuterWidth);
+    const difference = Math.max(0, maxKeys - numberOfContentKeys - (isMobile ? 0 : VisibleKeysPadding));
     return numberOfContentKeys + (difference - difference % 2);
 }
 
-
-export function createSizes (isMobile, width, height, pRx, numberOfContentKeys) {
+export function createSizesOptions (isMobile, width, height, pRx, numberOfContentKeys) {
 
     const ContentWidthPw = KeyOuterWidthPw * numberOfContentKeys;
-    let numberOfPossiblyVisibleKeys = numberOfContentKeys;
 
-    // mobile first
-    let pw = width / ContentWidthPw;
-    let ph = (Math.min(height, width) - pw * UiVerticalPaddingPw) / UiHeightPh;
+    let pw, ph, numberOfPossiblyVisibleKeys;
 
-    if (!isMobile) {
+    if (isMobile) {
+
+        pw = width / ContentWidthPw;
+        ph = (Math.min(height, width) - pw * UiVerticalPaddingPw) / UiHeightPh;
+        pw = Math.min(pw, ph);
+
+        numberOfPossiblyVisibleKeys = calcNumberOfVisibleKeys(isMobile, numberOfContentKeys, width, KeyOuterWidthPw * pw);
+        pw = width / (numberOfPossiblyVisibleKeys * KeyOuterWidthPw); // making full width
+
+    } else {
 
         const isEnoughSpace = pRx * (ContentWidthPw + KeyOuterWidthPw * VisibleKeysPadding) <= width;
 
         if (isEnoughSpace) {
-            numberOfPossiblyVisibleKeys = calcNumberOfVisibleKeys(numberOfContentKeys, width, KeyOuterWidthPw * pRx);
+            numberOfPossiblyVisibleKeys = calcNumberOfVisibleKeys(isMobile, numberOfContentKeys, width, KeyOuterWidthPw * pRx);
             pw = ph = width / ((numberOfPossiblyVisibleKeys + VisibleKeysPadding) * KeyOuterWidthPw);
         } else {
-            ph = pw; // for big screen saving aspect ratio
+            numberOfPossiblyVisibleKeys = numberOfContentKeys;
+            ph = pw = width / ContentWidthPw; // for big screen saving aspect ratio
         }
     }
+
+    const keyOuterWidth = pw * KeyOuterWidthPw;
+
+    return {
+        pw,
+        ph,
+        keyOuterWidth,
+        numberOfPossiblyVisibleKeys,
+        numberOfVisibleKeys: calcNumberOfVisibleKeys(isMobile, numberOfContentKeys, width, keyOuterWidth)
+    }
+}
+
+export function createSizes ({ pw, ph, numberOfPossiblyVisibleKeys }) {
 
     function fpw (value) {
         return value * pw;

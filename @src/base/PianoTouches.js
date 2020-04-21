@@ -9,6 +9,9 @@ export class PianoTouches {
         this.piano = piano;
         this.activeTouches = new Set();
 
+        // making possible to call preventDefault() on touch events
+        document.body.style.touchAction = 'manipulation';
+
         window.addEventListener('touchstart', this.onTouchStart);
         window.addEventListener('touchmove', this.onTouchMove);
         window.addEventListener('touchend', this.onTouchEnd);
@@ -16,6 +19,9 @@ export class PianoTouches {
     }
 
     onTouchMove = (e) => {
+
+        e.preventDefault();
+
         for (let { identifier, clientX, clientY } of e.changedTouches) {
             const realTarget = document.elementFromPoint(clientX, clientY);
             this.onTouch(identifier, realTarget);
@@ -23,6 +29,9 @@ export class PianoTouches {
     }
 
     onTouchStart = (e) => {
+
+        e.preventDefault();
+
         for (let { identifier, target } of e.touches) {
             this.onTouch(identifier, target);
         }
@@ -35,6 +44,8 @@ export class PianoTouches {
     }
 
     onTouchEnd = (e) => {
+
+        e.preventDefault();
 
         const active = new Set();
         for (let touch of e.touches) {

@@ -1,5 +1,5 @@
 
-import { ShiftLeft, ShiftRight, Expand, Shrink, ContentKeysInterval, IntervalActions } from './Constants'
+import { ShiftLeft, ShiftRight, Expand, Shrink, ContentKeysInterval, IntervalActions, NumberOfMinimumVisibleKeys } from './Constants'
 
 
 const KeyCodesMappings = {
@@ -22,8 +22,26 @@ export class PianoControls {
 
         this.intervalActions = new Set(IntervalActions);
         this.controlKeys.onChange(this.onPressed);
+
+        this.settings.onChange(this.onSettingsChange);
     }
 
+    onSettingsChange = () => {
+
+        const contentKeysInterval = this.settings.get(ContentKeysInterval);
+        const numberOfMinimumVisibleKeys = this.settings.get(NumberOfMinimumVisibleKeys);
+
+        this.controlKeys.forEach( control => {
+            if (control.intervalAction) {
+                let disabled = !contentKeysInterval.can(control.intervalAction);
+                if (control.name === Shrink && !disabled) {
+                    disabled = contentKeysInterval.length <= numberOfMinimumVisibleKeys;
+                }
+                this.controlKeys.disabled(control.name, disabled);
+            }
+        })
+
+    }
 
     onKeyDown = (e) => {
 

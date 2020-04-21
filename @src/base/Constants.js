@@ -31,8 +31,10 @@ export const
 
 // App settings
 export const
+    IsMobile = 'IsMobile',
     Sizes = 'Sizes',
-    VisibleKeysInterval = 'VisibleKeysInterval'
+    VisibleKeysInterval = 'VisibleKeysInterval',
+    NumberOfMinimumVisibleKeys = 'NumberOfMinimumVisibleKeys'
 ;
 
 // User settings

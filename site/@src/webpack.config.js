@@ -15,7 +15,7 @@ module.exports = (env) => spa(env, {
     productionPath: './docs',
     developmentPath: './site/spa',
 
-    title: 'A.Brill',
+    title: 'A.Piano',
     header,
 
     scripts: [
