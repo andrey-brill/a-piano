@@ -1,6 +1,6 @@
 
 import { React } from '../../chunk-e.js';
-import { ShadowRect } from '../base/ShadowRect.jsx';
+import { ShadowRect } from '../base/Shadow.jsx';
 
 import style from './Keys.m.scss';
 
@@ -20,16 +20,16 @@ export const PianoBlackKey = ({ note, offset, bounds }) => {
         <g className={style.black} name={name}>
             <ShadowRect className={style.shadow} offset={keyOffset} bounds={bounds}/>
             <rect
-                className={style.key}
+                className={style.glance}
                 x={keyOffset.x + bounds.padding}
                 y={keyOffset.y + bounds.padding}
                 width={bounds.width}
                 height={bounds.height}
                 rx={bounds.radius}/>
             <rect
-                className={style.top}
+                className={style.key}
                 x={keyOffset.x + bounds.padding}
-                y={keyOffset.y + bounds.padding} // TODO move to css
+                y={keyOffset.y + bounds.padding}
                 width={bounds.width}
                 height={topHeight}
                 rx={bounds.radius}/>

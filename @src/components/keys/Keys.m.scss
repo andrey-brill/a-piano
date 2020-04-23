@@ -1,7 +1,69 @@
 
+
+// common style for div & g elements
+
+.white {
+
+    > * {
+        cursor: pointer;
+    }
+
+}
+
+.black {
+
+    > * {
+        cursor: pointer;
+    }
+
+    .key {
+        transform: translate(0, var(--pPaddingX2));
+    }
+
+}
+
 .container {
 
-    cursor: pointer;
+    &.pressed:not(.disabled) {
+
+        .white {
+
+            .key {
+                transform: translate(0, var(--pPaddingX1));
+            }
+
+        }
+
+        .black {
+
+            .key {
+                transform: translate(0, var(--pPaddingX4));
+            }
+
+            .glance {
+                transform: translate(0, var(--pPaddingX1));
+            }
+
+        }
+
+    }
+
+    &.disabled {
+
+        .white {
+
+            > * {
+                cursor: not-allowed !important;
+            }
+        }
+    }
+
+}
+
+
+// styles for g element
+.container {
+
 
     .white {
 
@@ -18,24 +80,24 @@
     .black {
 
         .key {
-            fill: var(--black-key-color);
+            fill: var(--black-key-top-color);
         }
 
         .shadow {
             fill: var(--black-key-shadow-color);
         }
 
-        .top {
-            fill: var(--black-key-top-color);
-            transform: translate(0, var(--pPaddingX2));
+        .glance {
+            fill: var(--black-key-color);
         }
+
     }
 
     &:not(.pressed):not(.disabled) {
         .white:hover .key {
             fill: var(--white-key-hover-color);
         }
-        .black:hover .top {
+        .black:hover .key {
             fill: var(--black-key-top-hover-color);
         }
     }
@@ -46,7 +108,6 @@
 
             .key {
                 fill: var(--white-key-pressed-color);
-                transform: translate(0, var(--pPaddingX1));
             }
 
             .shadow {
@@ -58,28 +119,28 @@
         .black {
 
             .key {
-                fill: var(--black-key-pressed-color);
-                transform: translate(0, var(--pPaddingX1));
+                fill: var(--black-key-top-pressed-color);
             }
 
             .shadow {
                 fill: var(--black-key-shadow-pressed-color);
             }
 
-            .top {
-                fill: var(--black-key-top-pressed-color);
-                transform: translate(0, var(--pPaddingX4));
+            .glance {
+                fill: var(--black-key-pressed-color);
             }
+
         }
 
     }
 
     &.disabled {
 
-        cursor: not-allowed;
+        .white {
 
-        .white .key {
-            fill: var(--white-key-disabled-color);
+            .key {
+                fill: var(--white-key-disabled-color);
+            }
         }
     }
 

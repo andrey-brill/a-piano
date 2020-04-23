@@ -5,7 +5,7 @@ import { PianoKeys } from '../keys/PianoKeys.jsx';
 import { Context } from '../base/Context.jsx';
 import { Sizes, ContentKeysInterval, VisibleKeysInterval } from '../../base/Constants.js';
 import { strictSize } from '../../utils/Utils.js';
-import { OctaveNames, Octaves } from './Octaves.jsx';
+import { Octaves } from './Octaves.jsx';
 
 
 
@@ -32,9 +32,8 @@ export const Piano = () => {
 
     return (
         <Content width={width}>
-                <OctaveNames bounds={octaveBounds} octaves={visibleOctaves}/>
+                <Octaves bounds={octaveBounds} octaves={visibleOctaves}/>
                 <svg viewBox={`0 0 ${width} ${height}`} style={strictSize(width, height)} xmlns="http://www.w3.org/2000/svg">
-                    <Octaves bounds={octaveBounds} octaves={visibleOctaves}/>
                     <PianoKeys
                         notes={visibleNotes}
                         offset={keysOffset}

@@ -1,7 +1,7 @@
 
 import { React } from '../../chunk-e.js';
 import { PathBuilder } from '../piano/PathBuilder.js';
-import { ShadowRect } from '../base/ShadowRect.jsx';
+import { ShadowRect } from '../base/Shadow.jsx';
 
 import style from './Keys.m.scss';
 

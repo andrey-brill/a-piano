@@ -1,80 +1,35 @@
 
 import { React } from '../../chunk-e.js';
-import { ShadowRect } from '../base/ShadowRect.jsx';
+import { ShadowDiv } from '../base/Shadow.jsx';
 
 import style from './Octaves.m.scss';
+import { AbsoluteDiv } from '../base/AbsoluteDiv.jsx';
 
 
 export const Octaves = ({ bounds, octaves }) => {
-    return (
-        <g>
-            {octaves.map( ({ index, length, octave }) => <Octave key={octave} index={index} length={length} bounds={bounds}/> )}
-        </g>
-    )
-};
-
-const Octave = ({ index, length, bounds }) => {
-
-    const { offset, octaveBounds } = resolveBounds(bounds, index, length);
-
-    return (
-        <g>
-            <ShadowRect className={style.shadow} offset={offset} bounds={octaveBounds}/>
-            <rect
-                className={style.octave}
-                x={offset.x + octaveBounds.padding}
-                y={offset.y + octaveBounds.padding}
-                width={octaveBounds.width}
-                height={octaveBounds.height}
-                rx={octaveBounds.radius}/>
-        </g>
-    )
-};
-
-export const OctaveNames = ({ bounds, octaves }) => {
 
     const { fontSize } = bounds;
 
     return (
-        <div className={style.octaveNames} style={{ fontSize }}>
-            {octaves.map( ({ index, length, octave, name }) => <OctaveName key={octave} name={name} index={index} length={length} bounds={bounds}/> )}
+        <div className={style.octaves} style={{ fontSize }}>
+            {octaves.map( ({ index, length, octave, name }) => <Octave key={octave} name={name} index={index} length={length} bounds={bounds}/> )}
         </div>
     )
 }
 
-const OctaveName = ({ index, length, name, bounds }) => {
+const Octave = ({ index, length, name, bounds }) => {
 
-    const { offset, octaveBounds } = resolveBounds(bounds, index, length);
+    const { padding, width } = bounds;
 
-    const size = {
-        left: offset.x + octaveBounds.padding,
-        top: offset.y + octaveBounds.padding,
-        width: octaveBounds.width,
-        height: octaveBounds.height
-    };
+    const left = index * (2 * padding + width);
+    const octaveWidth = length * width + (length - 1) * (2 * padding);
 
     return (
-        <div className={style.octaveName} style={size}>
-            <span>{name}</span>
-        </div>
+        <AbsoluteDiv left={left}>
+            <ShadowDiv className={style.shadow} width={octaveWidth} bounds={bounds}/>
+            <AbsoluteDiv className={style.octave} width={octaveWidth} bounds={bounds}>
+                <span>{name}</span>
+            </AbsoluteDiv>
+        </AbsoluteDiv>
     )
 };
-
-function resolveBounds (bounds, index, length) {
-
-    const { padding, radius, width, height } = bounds;
-
-    const offset = {
-        y: 0,
-        x: index * (2 * padding + width)
-    };
-
-    const octaveBounds = {
-        padding,
-        radius,
-        height,
-        width: length * width + (length - 1) * (2 * padding)
-    };
-
-    return { offset, octaveBounds };
-}

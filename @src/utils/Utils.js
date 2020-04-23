@@ -51,3 +51,7 @@ export function indexBy (objects, property) {
 
     return objectsByName;
 }
+
+export function nvlNumber (value, defaultValue) {
+    return isNaN(value) ? defaultValue : value;
+}

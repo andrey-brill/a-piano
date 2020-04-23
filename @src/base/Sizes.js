@@ -139,7 +139,6 @@ class Sizes {
         for (let key in BlackKeyOffsetFromWhiteKey) {
             leftOffsets[key] = BlackKeyOffsetFromWhiteKey[key] * keyWidth / KeyWidthPw
         }
-        const blackTopHeight = ph(BlackKeyHeightPh) * BlackKeyTopHeightPh / BlackKeyHeightPh;
 
         const whiteCutoutWidths = {};
         for (let key in WhiteCutoutWidths) {
@@ -179,7 +178,7 @@ class Sizes {
             blackKeyBounds: keyBounds({
                 width: pw(BlackKeyWidthPw),
                 height: ph(BlackKeyHeightPh),
-                topHeight: blackTopHeight,
+                topHeight: ph(BlackKeyHeightPh) * BlackKeyTopHeightPh / BlackKeyHeightPh,
                 whiteKeyOuterWidth: keyOuterWidth,
                 leftOffsets
             })

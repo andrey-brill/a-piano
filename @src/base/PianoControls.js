@@ -1,5 +1,5 @@
 
-import { ShiftLeft, ShiftRight, Expand, Shrink, ContentKeysInterval, IntervalActions, NumberOfMinimumVisibleKeys } from './Constants'
+import { ShiftLeft, ShiftRight, Expand, Shrink, ContentKeysInterval, IntervalActions, NumberOfMinimumVisibleKeys } from './Constants.js'
 
 
 const KeyCodesMappings = {

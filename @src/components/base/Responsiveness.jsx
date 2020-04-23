@@ -73,8 +73,8 @@ export class Responsiveness extends React.Component {
             }
 
             settings.set(NumberOfMinimumVisibleKeys, minSizesOptions.numberOfVisibleKeys);
-            settings.set(IsMobile, isMobile, true);
-            settings.set(VisibleKeysInterval, visibleKeysInterval, true);
+            settings.set(IsMobile, isMobile);
+            settings.set(VisibleKeysInterval, visibleKeysInterval);
             settings.set(Sizes, sizes);
 
             this.setState({ initialized: true });
