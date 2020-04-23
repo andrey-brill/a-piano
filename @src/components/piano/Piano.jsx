@@ -5,6 +5,7 @@ import { PianoKeys } from '../keys/PianoKeys.jsx';
 import { Context } from '../base/Context.jsx';
 import { Sizes, ContentKeysInterval, VisibleKeysInterval } from '../../base/Constants.js';
 import { Octaves } from './Octaves.jsx';
+import { KeyboardKeys } from '../keys/KeyboardKeys.jsx';
 
 
 export const Piano = () => {
@@ -23,13 +24,9 @@ export const Piano = () => {
 
     const { visibleOffsetX, visibleNotes, visibleOctaves } = notes.resolveVisible(settings.get(ContentKeysInterval), settings.get(VisibleKeysInterval));
 
-    const keysOffset = {
-        x: visibleOffsetX * keyOuterWidth,
-        y: 0
-    }
-
-    const newKeysOffset = {
-        left: visibleOffsetX * keyOuterWidth
+    const offset = {
+        left: visibleOffsetX * keyOuterWidth,
+        top: 0
     }
 
     return (
@@ -38,10 +35,13 @@ export const Piano = () => {
                 <Octaves bounds={octaveBounds} octaves={visibleOctaves}/>
 
                 <PianoKeys
-                        offset={newKeysOffset}
+                        outerHeight={height}
+                        offset={offset}
                         notes={visibleNotes}
                         whiteKeyBounds={whiteKeyBounds}
                         blackKeyBounds={blackKeyBounds}/>
+
+                <KeyboardKeys offset={offset} visibleNotes={visibleNotes}/>
 
         </Content>
     );

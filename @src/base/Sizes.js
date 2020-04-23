@@ -31,6 +31,8 @@ const
     UiHeightPh = ControlsHeightPh + OctaveHeightPh + WhiteKeyHeightPh,
     UiVerticalPaddingPw = 3 * VerticalPaddingPw,
 
+    KeyboardKeyFontSizePh = 8,
+
     BlackKeyOffsetFromWhiteKey = {
         C: 18,
         D: 26,
@@ -131,6 +133,7 @@ class Sizes {
 
         const keyWidth = pw(KeyWidthPw);
         const keyOuterWidth = pw(KeyOuterWidthPw);
+        const keyOuterHeight = ph(KeyHeightPh) + pw(VerticalPaddingPw);
 
         const leftOffsets = {};
         for (let key in BlackKeyOffsetFromWhiteKey) {
@@ -149,7 +152,12 @@ class Sizes {
 
             keyWidth,
             keyOuterWidth,
-            keyBounds: keyBounds(),
+            keyOuterHeight,
+
+            keyboardKeyBounds: keyBounds({
+                outerWidth: keyOuterWidth,
+                fontSize: ph(KeyboardKeyFontSizePh)
+            }),
 
             paddings: {
                 X1: pw(PaddingPw),
@@ -159,7 +167,7 @@ class Sizes {
 
             octaveBounds: keyBounds({
                 fontSize: ph(OctaveFontSizePh),
-                outerHeight: ph(KeyHeightPh) + pw(VerticalPaddingPw)
+                outerHeight: keyOuterHeight
             }),
 
             pianoOuterSize: {

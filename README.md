@@ -8,7 +8,6 @@ __NB! Remote audio output devise (ex. Bluetooth) cause delay in playback of the 
 
 ### Todo
 
-- make keyboard keys based on div-elements
 - make controls for edit settings:
     - Left,Right (align left)
     - Add,Remove (align Right)

@@ -2,6 +2,17 @@
 
 // common style for div & g elements
 
+.keyboardKey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+}
+
+.black .keyboardKey {
+    color: var(--white);
+}
+
 .white {
 
     svg {
@@ -28,6 +39,7 @@
 
 }
 
+
 .black {
 
     > * {
@@ -35,9 +47,13 @@
     }
 
     .key {
-        transform: translate(0, var(--pPaddingX2));
         background: var(--black-key-top-color);
+
+        &:not(.keyboardKey) {
+            transform: translate(0, var(--pPaddingX2));
+        }
     }
+
 
     .shadow {
         background: var(--black-key-shadow-color);
@@ -93,8 +109,12 @@
         &.black {
 
             .key {
-                transform: translate(0, var(--pPaddingX4));
+                transform: translate(0, var(--pPaddingX1));
                 background: var(--black-key-top-pressed-color);
+
+                &:not(.keyboardKey) {
+                    transform: translate(0, var(--pPaddingX4));
+                }
             }
 
             .shadow {
@@ -112,21 +132,19 @@
 
     &.disabled {
 
-        &.white {
-
-            > * {
-                cursor: not-allowed !important;
-            }
-
-            path.key {
-                fill: var(--white-key-disabled-color);
-            }
-
-            div.key {
-                background: var(--white-key-disabled-color);
-            }
-
+        > * {
+            cursor: not-allowed !important;
         }
+
+        .key {
+            transform: translate(0, var(--pPaddingX1));
+            background: var(--white-key-disabled-color);
+        }
+
+        .shadow {
+            background: var(--white-key-shadow-color);
+        }
+
     }
 
 }

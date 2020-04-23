@@ -87,7 +87,7 @@ export class KeysInterval {
 
     runShiftLeft () {
         if (this.canShiftLeft()) {
-            return new KeysInterval(this.from - 1, this.to - 1);
+            return new KeysInterval(this.from + 1, this.to + 1);
         } else {
             return null;
         }
@@ -99,7 +99,7 @@ export class KeysInterval {
 
     runShiftRight () {
         if (this.canShiftRight()) {
-            return new KeysInterval(this.from + 1, this.to + 1);
+            return new KeysInterval(this.from - 1, this.to - 1);
         } else {
             return null;
         }

@@ -33,19 +33,24 @@ class AbstractContainer extends React.Component {
         );
     }
 
+    setKeyState (value) {
+        this.setState({
+            pressed: value.pressed,
+            disabled: value.disabled
+        });
+    }
+
     listenKeys (keys) {
 
         const keyName = this.props.name;
 
         keys.onChange( (changedKey, value) => {
             if (changedKey === keyName) {
-                this.setState({
-                    pressed: value.pressed,
-                    disabled: value.disabled
-                })
+                this.setKeyState(value)
             }
         });
 
+        this.setKeyState(keys.get(keyName));
     }
 
 }

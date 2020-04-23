@@ -15,7 +15,7 @@ export const PianoBlackKey = ({ note, offset, bounds }) => {
 
     const keyOffset = {
         left: offset.left + note.index * whiteKeyOuterWidth + leftOffset,
-        top: 0
+        top: offset.top
     }
 
     return (
