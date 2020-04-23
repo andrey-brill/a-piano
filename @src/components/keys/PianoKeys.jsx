@@ -2,22 +2,24 @@
 import { React } from '../../chunk-e.js';
 import { PianoBlackKey } from './PianoBlackKey.jsx';
 import { PianoWhiteKey } from './PianoWhiteKey.jsx';
-import { Container } from './Container.jsx';
 
 
 export const PianoKeys = ({ notes, offset, whiteKeyBounds, blackKeyBounds }) => (
-    <g>
+    <div style={{ position: 'relative' }}>
         {
-            notes.map( (note) => (
-                <Container key={note.name} settings='notes' setting={note.name}>
-                {
-                    note.white ?
-                        (<PianoWhiteKey note={note} offset={offset} bounds={whiteKeyBounds}/>)
-                        :
-                        (<PianoBlackKey note={note} offset={offset} bounds={blackKeyBounds}/>)
-                }
-                </Container>
-            ))
+            notes.map( note => (<PianoKey key={note.name} note={note} offset={offset} whiteKeyBounds={whiteKeyBounds} blackKeyBounds={blackKeyBounds}/>))
         }
-    </g>
+    </div>
+);
+
+
+const PianoKey = ({ note, offset, whiteKeyBounds, blackKeyBounds }) => (
+    <>
+         {
+            note.white ?
+                (<PianoWhiteKey note={note} offset={offset} bounds={whiteKeyBounds}/>)
+                :
+                (<PianoBlackKey note={note} offset={offset} bounds={blackKeyBounds}/>)
+        }
+   </>
 )

@@ -124,9 +124,6 @@ class Sizes {
             }, options)
         }
 
-        const octaveOuterHeight = ph(KeyHeightPh) + pw(VerticalPaddingPw);
-        const pianoKeysOuterHeight = ph(WhiteKeyHeightPh) + pw(VerticalPaddingPw);
-
         const whiteKeyHeight = ph(WhiteKeyHeightPh);
         const k = WhiteKeyCutoutHeightPh / WhiteKeyHeightPh;
         const cutoutHeight = whiteKeyHeight * k;
@@ -146,6 +143,8 @@ class Sizes {
             whiteCutoutWidths[key] = [left * keyWidth / KeyWidthPw, right * keyWidth / KeyWidthPw];
         }
 
+        const whiteKeyOuterHeight = ph(WhiteKeyHeightPh) + pw(VerticalPaddingPw);
+
         Object.assign(this, {
 
             keyWidth,
@@ -158,18 +157,20 @@ class Sizes {
                 X4: 4 * pw(PaddingPw)
             },
 
-            octaveOuterHeight,
             octaveBounds: keyBounds({
-                fontSize: ph(OctaveFontSizePh)
+                fontSize: ph(OctaveFontSizePh),
+                outerHeight: ph(KeyHeightPh) + pw(VerticalPaddingPw)
             }),
 
             pianoOuterSize: {
                 width: pw(numberOfPossiblyVisibleKeys * KeyOuterWidthPw),
-                height: pianoKeysOuterHeight + octaveOuterHeight
+                height: whiteKeyOuterHeight
             },
 
             whiteKeyBounds: keyBounds({
                 height: whiteKeyHeight,
+                outerWidth: keyOuterWidth,
+                outerHeight: whiteKeyOuterHeight,
                 cutoutHeight,
                 unCutoutHeight,
                 cutoutWidths: whiteCutoutWidths

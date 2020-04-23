@@ -1,27 +1,33 @@
 
 import { React } from '../../chunk-e.js';
 import { PathBuilder } from '../piano/PathBuilder.js';
-import { ShadowRect } from '../base/Shadow.jsx';
+import { ShadowDiv } from '../base/Shadow.jsx';
+import { PianoKeyContainer } from './Containers.jsx';
+import { strictSize } from '../../utils/Utils.js';
 
 import style from './Keys.m.scss';
 
 
 export const PianoWhiteKey = ({ note, offset, bounds }) => {
 
+    const { outerWidth, outerHeight } = bounds;
+
     const keyOffset = {
-        x: offset.x + note.index * (2 * bounds.padding + bounds.width),
-        y: offset.y
+        left: offset.left + note.index * outerWidth,
+        top: 0
     };
 
     return (
-        <g className={style.white} name={note.name}>
-            <ShadowRect className={style.shadow} offset={keyOffset} bounds={bounds}/>
-            <path className={style.key} d={createWhiteKeyPathData(note, keyOffset, bounds)}/>
-        </g>
+        <PianoKeyContainer name={note.name} className={style.white} offset={keyOffset} touchable={true}>
+            <ShadowDiv className={style.shadow} bounds={bounds}/>
+            <svg viewBox={`0 0 ${outerWidth} ${outerHeight}`} style={strictSize(outerWidth, outerHeight)} xmlns="http://www.w3.org/2000/svg">
+                <path className={style.key} d={createWhiteKeyPathData(note, bounds)}/>
+            </svg>
+        </PianoKeyContainer>
     );
 };
 
-function createWhiteKeyPathData (note, offset, bounds) {
+function createWhiteKeyPathData (note, bounds) {
 
     const { height, width, padding, radius, cutoutHeight, unCutoutHeight, cutoutWidths } = bounds;
 
@@ -30,7 +36,7 @@ function createWhiteKeyPathData (note, offset, bounds) {
     const d = 2 * radius, r = radius;
 
     const path = new PathBuilder()
-        .M(offset.x + padding, offset.y + height + padding - radius)
+        .M(padding, height + padding - radius)
         .a(r,r)
         .h(width - d)
         .a(r,-r)

@@ -4,8 +4,26 @@
 
 .white {
 
+    svg {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
     > * {
         cursor: pointer;
+    }
+
+    div.key {
+        background: var(--white-key-color);
+    }
+
+    path.key {
+        fill: var(--white-key-color);
+    }
+
+    .shadow {
+        background: var(--white-key-shadow-color);
     }
 
 }
@@ -18,30 +36,74 @@
 
     .key {
         transform: translate(0, var(--pPaddingX2));
+        background: var(--black-key-top-color);
+    }
+
+    .shadow {
+        background: var(--black-key-shadow-color);
+    }
+
+    .glance {
+        background: var(--black-key-color);
     }
 
 }
 
 .container {
 
+
+    &:not(.pressed):not(.disabled) {
+
+        &.white:hover path.key {
+            fill: var(--white-key-hover-color);
+        }
+
+        &.white:hover div.key {
+            background: var(--white-key-hover-color);
+        }
+
+        &.black:hover .key {
+            background: var(--black-key-top-hover-color);
+        }
+    }
+
     &.pressed:not(.disabled) {
 
-        .white {
+        &.white {
 
             .key {
                 transform: translate(0, var(--pPaddingX1));
             }
 
+            path.key {
+                fill: var(--white-key-pressed-color);
+            }
+
+            div.key {
+                background: var(--white-key-pressed-color);
+            }
+
+            .shadow {
+                background: var(--white-key-shadow-pressed-color);
+            }
+
+
         }
 
-        .black {
+        &.black {
 
             .key {
                 transform: translate(0, var(--pPaddingX4));
+                background: var(--black-key-top-pressed-color);
+            }
+
+            .shadow {
+                background: var(--black-key-shadow-pressed-color);
             }
 
             .glance {
                 transform: translate(0, var(--pPaddingX1));
+                background: var(--black-key-pressed-color);
             }
 
         }
@@ -50,97 +112,20 @@
 
     &.disabled {
 
-        .white {
+        &.white {
 
             > * {
                 cursor: not-allowed !important;
             }
-        }
-    }
 
-}
-
-
-// styles for g element
-.container {
-
-
-    .white {
-
-        .key {
-            fill: var(--white-key-color);
-        }
-
-        .shadow {
-            fill: var(--white-key-shadow-color);
-        }
-
-    }
-
-    .black {
-
-        .key {
-            fill: var(--black-key-top-color);
-        }
-
-        .shadow {
-            fill: var(--black-key-shadow-color);
-        }
-
-        .glance {
-            fill: var(--black-key-color);
-        }
-
-    }
-
-    &:not(.pressed):not(.disabled) {
-        .white:hover .key {
-            fill: var(--white-key-hover-color);
-        }
-        .black:hover .key {
-            fill: var(--black-key-top-hover-color);
-        }
-    }
-
-    &.pressed:not(.disabled) {
-
-        .white {
-
-            .key {
-                fill: var(--white-key-pressed-color);
-            }
-
-            .shadow {
-                fill: var(--white-key-shadow-pressed-color);
-            }
-
-        }
-
-        .black {
-
-            .key {
-                fill: var(--black-key-top-pressed-color);
-            }
-
-            .shadow {
-                fill: var(--black-key-shadow-pressed-color);
-            }
-
-            .glance {
-                fill: var(--black-key-pressed-color);
-            }
-
-        }
-
-    }
-
-    &.disabled {
-
-        .white {
-
-            .key {
+            path.key {
                 fill: var(--white-key-disabled-color);
             }
+
+            div.key {
+                background: var(--white-key-disabled-color);
+            }
+
         }
     }
 

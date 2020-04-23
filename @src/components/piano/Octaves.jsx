@@ -1,17 +1,22 @@
 
 import { React } from '../../chunk-e.js';
 import { ShadowDiv } from '../base/Shadow.jsx';
+import { AbsoluteDiv } from '../base/AbsoluteDiv.jsx';
+import { strictHeight } from '../../utils/Utils.js';
 
 import style from './Octaves.m.scss';
-import { AbsoluteDiv } from '../base/AbsoluteDiv.jsx';
 
 
 export const Octaves = ({ bounds, octaves }) => {
 
-    const { fontSize } = bounds;
+    const { fontSize, outerHeight } = bounds;
+
+    const octavesStyle = Object.assign(strictHeight(outerHeight), {
+        fontSize
+    });
 
     return (
-        <div className={style.octaves} style={{ fontSize }}>
+        <div className={style.octaves} style={octavesStyle}>
             {octaves.map( ({ index, length, octave, name }) => <Octave key={octave} name={name} index={index} length={length} bounds={bounds}/> )}
         </div>
     )

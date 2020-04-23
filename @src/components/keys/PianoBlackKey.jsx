@@ -1,6 +1,8 @@
 
 import { React } from '../../chunk-e.js';
-import { ShadowRect } from '../base/Shadow.jsx';
+import { ShadowDiv } from '../base/Shadow.jsx';
+import { AbsoluteDiv } from '../base/AbsoluteDiv.jsx';
+import { PianoKeyContainer } from './Containers.jsx';
 
 import style from './Keys.m.scss';
 
@@ -12,27 +14,21 @@ export const PianoBlackKey = ({ note, offset, bounds }) => {
     const leftOffset = leftOffsets[note.letter];
 
     const keyOffset = {
-        x: offset.x + note.index * whiteKeyOuterWidth + leftOffset,
-        y: offset.y
-    };
+        left: offset.left + note.index * whiteKeyOuterWidth + leftOffset,
+        top: 0
+    }
 
     return (
-        <g className={style.black} name={name}>
-            <ShadowRect className={style.shadow} offset={keyOffset} bounds={bounds}/>
-            <rect
+        <PianoKeyContainer name={note.name} className={style.black} offset={keyOffset} touchable={true}>
+            <ShadowDiv className={style.shadow} bounds={bounds}/>
+            <AbsoluteDiv
                 className={style.glance}
-                x={keyOffset.x + bounds.padding}
-                y={keyOffset.y + bounds.padding}
-                width={bounds.width}
-                height={bounds.height}
-                rx={bounds.radius}/>
-            <rect
+                bounds={bounds}/>
+            <AbsoluteDiv
                 className={style.key}
-                x={keyOffset.x + bounds.padding}
-                y={keyOffset.y + bounds.padding}
-                width={bounds.width}
-                height={topHeight}
-                rx={bounds.radius}/>
-        </g>
+                bounds={bounds}
+                height={topHeight}/>
+        </PianoKeyContainer>
     );
 };
+
