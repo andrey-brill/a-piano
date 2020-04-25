@@ -1,0 +1,15 @@
+
+.footer {
+
+    margin-top: 1vh;
+
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: var(--gSmallFx);
+    font-weight: 300;
+    color: whitesmoke;
+    height: var(--lFooterHeight);
+}
