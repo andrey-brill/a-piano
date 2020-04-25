@@ -37,6 +37,7 @@ export const KeyboardKeys = ({ offset, visibleNotes }) => {
     const { settings, keyboardKeys } = React.useContext(Context);
 
     const { keyOuterWidth, keyOuterHeight, keyboardKeyBounds } = settings.get(Sizes);
+
     const interval = settings.get(ContentKeysInterval);
 
     const outerHeight = NumberOfLines * keyOuterHeight;
@@ -71,9 +72,9 @@ export const KeyboardKeys = ({ offset, visibleNotes }) => {
     return (
         <div style={style}>
             {
-                visibleKeys.map( key => (
+                visibleKeys.map( (key, index) => (
                     <KeyboardKey
-                        key={key.name}
+                        key={key.name || index}
                         keyboardKey={key}
                         offset={key.white ? whiteOffset : blackOffset}
                         bounds={keyboardKeyBounds}/>

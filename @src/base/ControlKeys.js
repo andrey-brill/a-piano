@@ -10,19 +10,21 @@ export class ControlKeys extends ChangeableKeys {
 
         const controls = [];
 
-        function add (name, title, options = {}) {
-            controls.push(Object.assign({ name, title, pressed: false, disabled: false }, options));
+        function add (name, alias, title, options = {}) {
+            controls.push(Object.assign({ name, alias, title, pressed: false, disabled: false }, options));
         }
 
-        function addIntervalAction (name, title) {
-            add(name, title, { intervalAction: name });
+        function addIntervalAction (name, alias, title, resolveIndex) {
+            add(name, alias, title, { intervalAction: name, length: 1, resolveIndex });
         }
 
-        add(Pedal, 'Soft pedal');
-        addIntervalAction(Expand, 'Expand piano keyboard');
-        addIntervalAction(Shrink, 'Shrink piano keyboard');
-        addIntervalAction(ShiftLeft, 'Shift to left piano keyboard');
-        addIntervalAction(ShiftRight, 'Shift to right piano keyboard');
+        add(Pedal, 'Pedal', 'Soft pedal', { length: 2, index: 0 });
+
+        addIntervalAction(ShiftLeft, '<', 'Shift to left piano keyboard', length => resolveIndexInCenter(length, true));
+        addIntervalAction(ShiftRight, '>', 'Shift to right piano keyboard', length => resolveIndexInCenter(length, false));
+
+        addIntervalAction(Shrink, '-', 'Shrink piano keyboard', length => length - 2);
+        addIntervalAction(Expand, '+', 'Expand piano keyboard', length => length - 1);
 
         super(indexBy(controls, Name));
 
@@ -31,6 +33,31 @@ export class ControlKeys extends ChangeableKeys {
 
     forEach (fn) {
         this.controls.forEach(fn);
+    }
+
+    map (fn) {
+        return this.controls.map(fn);
+    }
+
+    resolveKeyIndexes (length) {
+        this.forEach ( key => {
+            if (key.resolveIndex) {
+                key.index = key.resolveIndex(length);
+            }
+        })
+    }
+
+}
+
+
+function resolveIndexInCenter (length, isLeft) {
+
+    if (length % 2 === 0) {
+        const l2 = length / 2;
+        return isLeft ? l2 - 1: l2;
+    } else {
+        const l2 = (length - 1) / 2;
+        return isLeft ? l2 - 1: l2 + 1;
     }
 
 }

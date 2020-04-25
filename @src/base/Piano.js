@@ -4,10 +4,11 @@ import { ToneAttacked, ToneReleased, ToneNotReleased } from './Constants.js';
 
 export class Piano {
 
-    constructor (tones, notes) {
+    constructor (tones, notes, controlKeys) {
 
         this.notes = notes
         this.tones = tones;
+        this.controlKeys = controlKeys;
 
         this.states = {};
 
@@ -16,28 +17,45 @@ export class Piano {
         this.controllers = {};
     }
 
-    attackTone (controllerId, tone) {
+    attackKey (controllerId, key) {
 
         if (controllerId === null || controllerId === undefined) {
             throw new Error('ControllerId is undefined');
         }
 
-        const currentTone = this.controllers[controllerId];
-        if (currentTone && currentTone !== tone) {
-            this.triggerRelease(currentTone);
+
+        const currentKey = this.controllers[controllerId];
+        if (currentKey && currentKey !== key) {
+            if (this.controlKeys.has(currentKey)) {
+                this.controlKeys.pressed(currentKey, false);
+            } else {
+                this.triggerRelease(currentKey);
+            }
         }
 
-        if (tone) {
-            this.controllers[controllerId] = tone;
-            this.triggerAttack(tone);
-        } else if (currentTone) {
+        if (key) {
+            this.controllers[controllerId] = key;
+            if (this.controlKeys.has(key)) {
+                this.controlKeys.pressed(key, true);
+            } else {
+                this.triggerAttack(key);
+            }
+        } else if (currentKey) {
             delete this.controllers[controllerId];
         }
 
     }
 
-    releaseTone (controllerId) {
-        this.attackTone(controllerId, null);
+    releaseKey (controllerId) {
+        this.attackKey(controllerId, null);
+    }
+
+    togglePedal (soft) {
+        if (soft) {
+            this.pedalAttack();
+        } else {
+            this.pedalRelease();
+        }
     }
 
     pedalAttack () {

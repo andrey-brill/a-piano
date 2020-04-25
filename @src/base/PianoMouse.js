@@ -1,5 +1,5 @@
 
-import { resolveTone } from '../utils/Utils.js';
+import { resolveKeyName } from '../utils/Utils.js';
 
 
 const MOUSE_ID = 'mouse';
@@ -10,7 +10,7 @@ export class PianoMouse {
 
         this.piano = piano;
         this.mouseDown = false;
-        this.currentTone = null;
+        this.currentKey = null;
 
         window.addEventListener('mousedown', this.onDown);
         window.addEventListener('mousemove', this.onMove);
@@ -40,12 +40,12 @@ export class PianoMouse {
     }
 
     attack () {
-        this.piano.attackTone(MOUSE_ID, this.currentTone);
+        this.piano.attackKey(MOUSE_ID, this.currentKey);
     }
 
     onMove = (e) => {
 
-        this.currentTone = resolveTone(e.target);
+        this.currentKey = resolveKeyName(e.target);
 
         if (this.mouseDown) {
             this.attack();
@@ -55,7 +55,7 @@ export class PianoMouse {
 
     onUp = () => {
         this.mouseDown = false;
-        this.piano.releaseTone(MOUSE_ID);
+        this.piano.releaseKey(MOUSE_ID);
     }
 
 

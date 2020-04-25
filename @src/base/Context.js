@@ -22,7 +22,7 @@ export function createContext() {
     const controlKeys = new ControlKeys();
     const settings = new Settings();
     const tones = new Tones();
-    const piano = new Piano(tones, notes);
+    const piano = new Piano(tones, notes, controlKeys);
     const pianoMouse = new PianoMouse(piano);
     const pianoTouches = new PianoTouches(piano);
     const pianoKeyboard = new PianoKeyboard(piano, keyboardKeys, settings);

@@ -8,11 +8,12 @@ const DefaultBounds = {
     radius: 0
 }
 
-export const AbsoluteDiv = ({ className, name, left, top, width, height, radius, children, bounds=DefaultBounds }) => (
+export const AbsoluteDiv = ({ className, name, title, left, top, width, height, radius, children, bounds=DefaultBounds }) => (
 
     <div
         className={className}
         name={name}
+        title={title}
         style={{
             position: 'absolute',
             left: nvlNumber(left, bounds.padding),

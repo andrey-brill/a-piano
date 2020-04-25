@@ -1,5 +1,5 @@
 
-import { resolveTone } from '../utils/Utils.js';
+import { resolveKeyName } from '../utils/Utils.js';
 
 
 export class PianoTouches {
@@ -38,9 +38,9 @@ export class PianoTouches {
     }
 
     onTouch (identifier, target) {
-        const tone = resolveTone(target);
+        const key = resolveKeyName(target);
         this.activeTouches.add(identifier);
-        this.piano.attackTone(identifier, tone);
+        this.piano.attackKey(identifier, key);
     }
 
     onTouchEnd = (e) => {
@@ -54,7 +54,7 @@ export class PianoTouches {
 
         this.activeTouches.forEach( identifier => {
             if (!active.has(identifier)) {
-                this.piano.releaseTone(identifier);
+                this.piano.releaseKey(identifier);
             }
         });
 

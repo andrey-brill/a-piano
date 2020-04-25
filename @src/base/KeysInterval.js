@@ -82,7 +82,7 @@ export class KeysInterval {
     }
 
     canShiftLeft () {
-        return MinKey < this.from;
+        return this.to < MaxKey;
     }
 
     runShiftLeft () {
@@ -94,7 +94,7 @@ export class KeysInterval {
     }
 
     canShiftRight () {
-        return this.to < MaxKey;
+        return MinKey < this.from;
     }
 
     runShiftRight () {

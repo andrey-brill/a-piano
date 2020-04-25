@@ -26,7 +26,7 @@ export function safeNumber (value, min, max) {
     return Math.max(min, Math.min(max, value));
 }
 
-export function resolveTone (target) {
+export function resolveKeyName (target) {
 
     if (!target) {
         return null;

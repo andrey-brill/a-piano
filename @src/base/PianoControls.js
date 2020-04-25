@@ -1,8 +1,9 @@
 
-import { ShiftLeft, ShiftRight, Expand, Shrink, ContentKeysInterval, IntervalActions, NumberOfMinimumVisibleKeys } from './Constants.js'
+import { ShiftLeft, ShiftRight, Expand, Shrink, ContentKeysInterval, IntervalActions, NumberOfMinimumVisibleKeys, IsMobile, Pedal } from './Constants.js'
 
 
 const KeyCodesMappings = {
+    ShiftLeft: Pedal,
     NumpadAdd: Expand,
     NumpadSubtract: Shrink,
     ArrowLeft: ShiftLeft,
@@ -30,11 +31,12 @@ export class PianoControls {
 
         const contentKeysInterval = this.settings.get(ContentKeysInterval);
         const numberOfMinimumVisibleKeys = this.settings.get(NumberOfMinimumVisibleKeys);
+        const isMobile = this.settings.get(IsMobile);
 
         this.controlKeys.forEach( control => {
             if (control.intervalAction) {
                 let disabled = !contentKeysInterval.can(control.intervalAction);
-                if (control.name === Shrink && !disabled) {
+                if (isMobile && control.name === Shrink && !disabled) {
                     disabled = contentKeysInterval.length <= numberOfMinimumVisibleKeys;
                 }
                 this.controlKeys.disabled(control.name, disabled);
@@ -44,45 +46,35 @@ export class PianoControls {
     }
 
     onKeyDown = (e) => {
-
-        if (e.shiftKey) {
-            this.piano.pedalAttack();
-        }
-
         const key = KeyCodesMappings[e.code];
         if (key) {
             this.controlKeys.pressed(key, true);
         }
-
     }
 
     onPressed = (name, key) => {
 
-        if (!this.intervalActions.has(name)) {
-            return
-        }
-
         const { pressed, disabled, intervalAction } = key;
-        if (pressed && !disabled) {
-            const interval = this.settings.get(ContentKeysInterval);
-            const newInterval = interval.run(intervalAction);
-            if (newInterval) {
-                this.settings.set(ContentKeysInterval, newInterval);
+
+        if (name === Pedal) {
+            this.piano.togglePedal(pressed);
+        } else if (this.intervalActions.has(name)) {
+            if (pressed && !disabled) {
+                const interval = this.settings.get(ContentKeysInterval);
+                const newInterval = interval.run(intervalAction);
+                if (newInterval) {
+                    this.settings.set(ContentKeysInterval, newInterval);
+                }
             }
         }
 
     }
 
     onKeyUp = (e) => {
-
-        if (!e.shiftKey) {
-            this.piano.pedalRelease();
-        }
-
         const key = KeyCodesMappings[e.code];
         if (key) {
             this.controlKeys.pressed(key, false);
         }
-
     }
+
 }

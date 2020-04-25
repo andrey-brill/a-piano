@@ -44,7 +44,11 @@ class AbstractContainer extends React.Component {
 
         const keyName = this.props.name;
 
-        keys.onChange( (changedKey, value) => {
+        if (!keyName) { // Keyboard Keys can have undefined names
+            return;
+        }
+
+        this.unsubscribe = keys.onChange( (changedKey, value) => {
             if (changedKey === keyName) {
                 this.setKeyState(value)
             }
@@ -53,6 +57,12 @@ class AbstractContainer extends React.Component {
         this.setKeyState(keys.get(keyName));
     }
 
+    componentWillUnmount () {
+        if (this.unsubscribe) {
+            this.unsubscribe();
+            this.unsubscribe = null;
+        }
+    }
 }
 
 

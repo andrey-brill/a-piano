@@ -3,9 +3,10 @@ import { React } from '../../chunk-e.js';
 import { Content } from '../base/Content.jsx';
 import { PianoKeys } from '../keys/PianoKeys.jsx';
 import { Context } from '../base/Context.jsx';
-import { Sizes, ContentKeysInterval, VisibleKeysInterval } from '../../base/Constants.js';
+import { Sizes, ContentKeysInterval, VisibleKeysInterval, IsMobile } from '../../base/Constants.js';
 import { Octaves } from './Octaves.jsx';
 import { KeyboardKeys } from '../keys/KeyboardKeys.jsx';
+import { ControlKeys } from '../keys/ControlKeys.jsx';
 
 
 export const Piano = () => {
@@ -13,6 +14,8 @@ export const Piano = () => {
     const { settings, notes } = React.useContext(Context);
 
     const [ sizes, setSizes ] = React.useState(settings.get(Sizes));
+
+    const isMobile = settings.get(IsMobile);
 
     React.useEffect(() => settings.onChange((key) => {
         if (key === Sizes) setSizes(settings.get(Sizes));
@@ -41,7 +44,9 @@ export const Piano = () => {
                         whiteKeyBounds={whiteKeyBounds}
                         blackKeyBounds={blackKeyBounds}/>
 
-                <KeyboardKeys offset={offset} visibleNotes={visibleNotes}/>
+                <ControlKeys offset={offset} visibleNotes={visibleNotes}/>
+
+                { isMobile ? (null) : <KeyboardKeys offset={offset} visibleNotes={visibleNotes}/> }
 
         </Content>
     );

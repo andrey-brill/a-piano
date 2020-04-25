@@ -105,7 +105,7 @@ export class KeyboardKeys extends ChangeableKeys {
         }
 
         while (numberOfVisibleWhiteKeys < length) {
-            visibleKeys.push(emptyKey(false, numberOfVisibleWhiteKeys));
+            visibleKeys.push(emptyKey(false, numberOfVisibleWhiteKeys - 1));
             visibleKeys.push(emptyKey(true, numberOfVisibleWhiteKeys));
             numberOfVisibleWhiteKeys++;
         }
