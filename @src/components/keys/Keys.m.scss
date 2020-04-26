@@ -48,6 +48,9 @@
     }
 
     .key {
+
+        z-index: 1; // fixed touching black keys based on pointer position (before white keys was pressed)
+
         background: var(--black-key-top-color);
 
         &:not(.keyboardKey) {
